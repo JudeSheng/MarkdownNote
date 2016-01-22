@@ -1,8 +1,9 @@
 if ( window.MDN == undefined ) { MDN = {}; }
-MDN.menubar = function() {
+MDN.index = function() {
 	var self = this;
 	this.init = function() {
 		$('#mdn-menubar').jdMenuTree(MDN.menuObject);
+		$('#mdn-notepad').tabs();
 	};
 	this.addMenubarStyle = function() {
 		
@@ -12,7 +13,7 @@ MDN.menubar = function() {
 
 
 $(function(){
-	new MDN.menubar().init();
+	new MDN.index().init();
 });
 
 

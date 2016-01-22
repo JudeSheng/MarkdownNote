@@ -7,8 +7,8 @@
 				if(i == 0) {
 					menubarHtm += '<ul>';
 				}
-				menubarHtm += '<li>' +  menuObject[i].Menu + '</li>';
-				createMenu(menuObject[i].ChildMenu);
+				menubarHtm += '<li>' +  menuObject[i].menuName + '</li>';
+				createMenu(menuObject[i].childMenuList);
 				if(i == menuObject.length -1) {
 					menubarHtm += '</ul>';
 				}

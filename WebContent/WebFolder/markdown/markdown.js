@@ -1,5 +1,5 @@
 $(function(){
-	$('#mdn-notepad').load("NoteFolder/test.md", function() {
+	/*$('#mdn-notepad').load("NoteFolder/test.md", function() {
 		var $item = $(this);
 		var html = $item.html();
 		var converter = new Markdown.Converter();
@@ -11,6 +11,6 @@ $(function(){
 			var $item = $(this);
 			$item.parent().children(':not(h1,h2,h3,h4,h5,h6)').slideToggle(300);
 		});
-	});
+	});*/
 	
 });
