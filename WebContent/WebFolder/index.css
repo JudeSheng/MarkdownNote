@@ -1,0 +1,4 @@
+.mdn-menubar { width: 16%; height: 700px; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; }
+.mdn-content { width: 84%; height: 150%; float: right; }
+.mdn-notehead { height: 100px; }
+.mdn-notepad { min-height: 500px; background: #FCFCFC; border: 1px solid #CCC; border-radius: 5px; margin: 20px; padding: 20px 30px; }

@@ -1,0 +1,8 @@
+.jd-menu-tree * { margin: 0; padding: 0; }
+.jd-menu-tree { border-top:1px solid #DDD; }
+.jd-menu-tree ul { list-style-type: none; }
+.jd-menu-tree ul li:hover { cursor: pointer; background: #F5F5F5; }
+.jd-menu-tree > ul > li { border-bottom: 1px solid #DDD; padding: 10px 0 10px 32px; }
+.jd-menu-tree ul ul li { display: none; }
+.jd-menu-tree ul ul li { border-bottom: 1px solid #DDD; padding: 10px 0 10px 64px; }
+
