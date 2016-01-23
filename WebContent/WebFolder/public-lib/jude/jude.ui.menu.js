@@ -1,16 +1,16 @@
 (function($){
 	$.fn.jdMenuTree = function(menuObject, $menuHeader) {
 		var $item = this;
-		var menubarHtm = '<div class="jd-menu-tree">';
+		var menubarHtml = '<div class="jd-menu-tree">';
 		var createMenu = function(menuObject) {
 			for (var i = 0; i < menuObject.length; i++) {
 				if(i == 0) {
-					menubarHtm += '<ul>';
+					menubarHtml += '<ul>';
 				}
-				menubarHtm += '<li>' +  menuObject[i].menuName + '</li>';
+				menubarHtml += '<li key="'+menuObject[i].key+'">' +  menuObject[i].menuName + '</li>';
 				createMenu(menuObject[i].childMenuList);
 				if(i == menuObject.length -1) {
-					menubarHtm += '</ul>';
+					menubarHtml += '</ul>';
 				}
 			}
 		};
@@ -47,8 +47,8 @@
 		
 		if(menuObject != undefined) {
 			createMenu(menuObject);
-			menubarHtm += '</div>';
-			$item.html(menubarHtm);
+			menubarHtml += '</div>';
+			$item.html(menubarHtml);
 			bindClickMenu();
 		}
 	};

@@ -43,6 +43,8 @@
 	
 		<context:annotation-config />
 		<context:component-scan base-package="" />
+		
+		<task:annotation-driven /> 
 	
 		<import resource="classpath:/applicationContext_datasource.xml" />
 	
@@ -76,6 +78,7 @@
     - spring-expression-4.2.4.RELEASE.jar
     - commons-logging-1.2.jar
 2. 整合struts 2.3.24.1
+	- struts2-spring-plugin-2.3.24.1.jar
 	- xwork-core-2.3.24.1.jar
 	- struts2-core-2.3.24.1.jar
 	- ognl-3.0.6.jar

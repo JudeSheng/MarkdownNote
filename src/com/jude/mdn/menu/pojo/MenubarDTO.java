@@ -1,59 +1,35 @@
 package com.jude.mdn.menu.pojo;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import com.jude.mdn.note.pojo.NotePojo;
+import com.jude.utils.file.FilePojo;
 
 public class MenubarDTO {
-
-	private String menuName;
 	
-	private List<NotePojo> noteList;
+	private MenubarPojo menu;
 	
-	private List<MenubarDTO> childMenuList;
-	
-	public MenubarDTO() {
-		childMenuList = new ArrayList<MenubarDTO>();
-		noteList = new ArrayList<NotePojo>(); 
-	}
-	
-	public void addChildMenu(MenubarDTO childMenu) {
-		childMenuList.add(childMenu);
-	}
-	
-	public void addNote(NotePojo note) {
-		noteList.add(note);
+	private Map<String, List<FilePojo>> notesMap;
+
+	public MenubarPojo getMenu() {
+		return menu;
 	}
 
-	public String getMenuName() {
-		return menuName;
+	public void setMenu(MenubarPojo menu) {
+		this.menu = menu;
 	}
 
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
+	public Map<String, List<FilePojo>> getNotesMap() {
+		return notesMap;
 	}
 
-	public List<NotePojo> getNoteList() {
-		return noteList;
-	}
-
-	public void setNoteList(List<NotePojo> noteList) {
-		this.noteList = noteList;
-	}
-
-	public List<MenubarDTO> getChildMenuList() {
-		return childMenuList;
-	}
-
-	public void setChildMenuList(List<MenubarDTO> childMenuList) {
-		this.childMenuList = childMenuList;
+	public void setNotesMap(Map<String, List<FilePojo>> notesMap) {
+		this.notesMap = notesMap;
 	}
 
 	@Override
 	public String toString() {
-		return "MenubarDTO [menuName=" + menuName + ", noteList=" + noteList
-				+ ", childMenuList=" + childMenuList + "]";
+		return "MeunbarDTO [menu=" + menu + ", notesMap=" + notesMap + "]";
 	}
 	
 }
