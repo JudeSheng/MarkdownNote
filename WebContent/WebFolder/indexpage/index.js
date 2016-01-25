@@ -5,7 +5,8 @@ MDN.index = function() {
 	this.notesbar = {};
 	this.init = function() {
 		self.createMenubar();
-		$('#mdn-notepad').tabs();
+		$('#mdn-notepad').jdTabs('Test', 'iddddd', false);
+		$('#mdn-notepad').jdTabs_Add('Test2', 'iddddd2', true);
 	};
 	this.createMenubar = function() {
 		$.ajax({ 
