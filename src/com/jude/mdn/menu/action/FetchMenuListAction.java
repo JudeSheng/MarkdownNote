@@ -36,7 +36,7 @@ public class FetchMenuListAction extends ActionSupport implements ServletRequest
 	@Override
 	@Action("fetchMenuList")
 	public String execute() throws Exception {
-		String path = request.getServletContext().getRealPath("/");
+		String path = request.getSession().getServletContext().getRealPath("/");
 		File file = new File(path + "//NoteFolder");
 		menubar = service.getMenubar(file);
 		return SUCCESS;
