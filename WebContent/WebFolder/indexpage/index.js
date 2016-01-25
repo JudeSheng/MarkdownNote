@@ -4,6 +4,7 @@ MDN.index = function() {
 	var self = this;
 	this.notesbarObject = {};
 	this.notesbarId = 'mdn-notesbar';
+	this.tabCount = 1;
 	this.init = function() {
 		self.createMenubar();
 	};
@@ -44,6 +45,7 @@ MDN.index = function() {
 			});
 			self.makeNotebarHtml(keys);
 			$('#mdn-notepad').find('[href="#' + self.notesbarId + '"]').html($item.html());
+			$('#mdn-notepad').find('[href="#' + self.notesbarId + '"]').click();
 		});
 	};
 	this.makeNotebarHtml =function(keys) {
@@ -82,9 +84,13 @@ MDN.index = function() {
 		$('#' + self.notesbarId).html(html);
 	};
 	this.bindClickNote = function() {
-		$('#' + self.notesbarId).find('li').unbind('click').click(function(){
+		$('#' + self.notesbarId).find('li').unbind('click').live('click', function(){
 			var $note = $(this);
-			alert($note.html());
+			self.tabCount++;
+			var name = $note.html();
+			var index = name.lastIndexOf('.');
+			var title = name.substring(0,index);
+			$('#mdn-notepad').jdTabs_Add(title, 'mdn-tabs' + self.tabCount, true);
 		});
 	};
 	
