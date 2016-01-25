@@ -5,4 +5,5 @@
 .jd-menu-tree > ul > li { border-bottom: 1px solid #DDD; padding: 10px 0 10px 32px; }
 .jd-menu-tree ul ul li { display: none; }
 .jd-menu-tree ul ul li { border-bottom: 1px solid #DDD; padding: 10px 0 10px 64px; }
+.jd-menu-tree-click { font-weight: bold; }
 

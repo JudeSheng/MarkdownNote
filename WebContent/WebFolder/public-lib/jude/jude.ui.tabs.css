@@ -1,0 +1,26 @@
+.ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+.ui-helper-reset {font-size: 12px;}
+.ui-tabs .ui-tabs-nav {
+    margin: 0px;
+    padding: 0;
+}
+.ui-widget-content {
+	border: none;
+}
+.ui-widget-header {
+	border: none;
+	background: #fff 50% 50% repeat-x;
+}
+.ui-widget-header a {
+	color: #222222;
+}
+.ui-tabs .jd-tabs-panel { 
+	background: #FCFCFC; 
+	border-top-left-radius: 0; 
+	border-top-right-radius: 5px; 
+	border-bottom-left-radius: 5px; 
+	border-bottom-right-radius: 5px; 
+	border: 1px solid #CCC; 
+	min-height: 700px; 
+	padding: 20px;
+}

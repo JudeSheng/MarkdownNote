@@ -17,6 +17,9 @@
 		var bindClickMenu = function() {
 			$('.jd-menu-tree').find('li').unbind('click').click(function(){
 				var $item = $(this);
+				$('.jd-menu-tree').find('li').removeClass('jd-menu-tree-click');
+				$('.jd-menu-tree').find('span').removeClass('jd-menu-tree-click');
+				$item.addClass('jd-menu-tree-click');
 				if($item.next()[0] && $item.next()[0].localName == 'ul') {
 					var isHide = $item.next().find('li').css('display')=='none'?true:false;
 					if(isHide){
@@ -37,7 +40,7 @@
 						} else if($parentMenu.parent().parent().attr('class') == 'jd-menu-tree') {
 							$parentMenu = $parentMenu.prev();
 							parentText = $parentMenu.html().split(' / ')[0];
-							$parentMenu.html(parentText + ' / ' + $item.html());
+							$parentMenu.html(parentText + ' / ' + '<span class="jd-menu-tree-click">' + $item.html() + '</span>');
 							break;
 						}
 					}

@@ -1,4 +1,10 @@
-.mdn-menubar { width: 16%; height: 700px; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; }
+.mdn-menubar { width: 16%; height: 100%; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; }
 .mdn-content { width: 84%; height: 150%; float: right; }
 .mdn-notehead { height: 100px; }
-.mdn-notepad { min-height: 500px; background: #FCFCFC; border: 1px solid #CCC; border-radius: 5px; margin: 20px; }
+.mdn-notepad { margin: 20px; }
+#mdn-notesbar ul { list-style-type: none; margin:0; padding:0; }
+#mdn-notesbar ul li { color: #3572B0; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
+#mdn-notesbar ul li:hover { cursor: pointer; text-decoration: underline;  }
+#mdn-notesbar .mdn-notesbar-folder ul { margin:0; padding: 16px 0 0 32px; }
+#mdn-notesbar .mdn-notesbar-titles span { font-size: 14px; color: #A4A4A4; }
+#mdn-notesbar .mdn-notesbar-titles .mdn-notesbar-folder-current  { font-size: 16px; color: #373D49; }
