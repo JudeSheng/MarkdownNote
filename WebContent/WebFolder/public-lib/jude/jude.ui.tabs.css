@@ -21,6 +21,7 @@
 	border-bottom-left-radius: 5px; 
 	border-bottom-right-radius: 5px; 
 	border: 1px solid #CCC; 
-	min-height: 700px; 
+	height: 700px; 
+	overflow-y: scroll;
 	padding: 20px;
 }

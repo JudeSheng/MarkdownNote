@@ -4,6 +4,7 @@ MDN.index = function() {
 	var self = this;
 	this.notesbarObject = {};
 	this.notesbarId = 'mdn-notesbar';
+	this.$notesbarTab;
 	this.tabCount = 1;
 	this.init = function() {
 		self.createMenubar();
@@ -29,6 +30,8 @@ MDN.index = function() {
 	this.initNotesbarTabs = function(menubar) {
 		var menuName = menubar.menu.childMenuList[0].menuName;
 		$('#mdn-notepad').jdTabs(menuName, self.notesbarId, false);
+		self.$notesbarTab = $('#mdn-notepad').find('[href="#' + self.notesbarId + '"]');
+		self.$notesbarTab.parent().addClass('mdn-notesbar-tab');
 		self.bindClickMenu();
 		$('.jd-menu-tree').find('li:eq(0)').click();
 		self.bindClickNote();
@@ -36,17 +39,41 @@ MDN.index = function() {
 	this.bindClickMenu = function() {
 		$('.jd-menu-tree').find('li').click(function(){
 			var $item = $(this);
-			var keys = [];
+			var allKeys = [];
 			var key = $item.attr('key');
-			keys.push(key);
+			allKeys.push(key);
 			$item.next().find('li').each(function(){
 				var $child = $(this);
-				keys.push($child.attr('key'));
+				allKeys.push($child.attr('key'));
 			});
-			self.makeNotebarHtml(keys);
-			$('#mdn-notepad').find('[href="#' + self.notesbarId + '"]').html($item.html());
-			$('#mdn-notepad').find('[href="#' + self.notesbarId + '"]').click();
+			var childKeys = [];
+			$item.next().children('li').each(function(){
+				var $child = $(this);
+				childKeys.push($child.attr('key'));
+			});
+			self.makeHeadMenuHtml(key, childKeys);
+			self.makeNotebarHtml(allKeys);
+			self.$notesbarTab.html($item.html());
+			self.$notesbarTab.click();
 		});
+	};
+	this.makeHeadMenuHtml = function(currentKey, childKeys){
+		var htmlCurrent = '';
+		var keys = currentKey.split('.');
+		for (var i = 0; i < keys.length; i++) {
+			htmlCurrent += '<span>' + keys[i] + '</span>';
+			if(i != keys.length-1) {
+				htmlCurrent += ' / ';
+			}
+		}
+		$('.mdn-head-menu .menu .current').html(htmlCurrent);
+		var htmlChildren = '';
+		for (var i = 0; i < childKeys.length; i++) {
+			var key = childKeys[i];
+			var index = key.lastIndexOf('.');
+			htmlChildren += '<span>' + key.substring(index+1) + '</span>';
+		}
+		$('.mdn-head-menu .menu .children').html(htmlChildren);
 	};
 	this.makeNotebarHtml =function(keys) {
 		var html = '<div>';
@@ -68,13 +95,20 @@ MDN.index = function() {
 					html += '</div>';
 					html += '<ul>';
 					for (var j = 0; j < notes.length; j++) {
-						html += '<li>' + notes[j].name + '</li>';
+						var location = notes[j].location;
+						var index = location.indexOf('NoteFolder');
+						location = location.substring(index).replace(/\\/g,'/');
+						html += '<li name="' + location + '">' + notes[j].name + '</li>';
 					}
 					html += '</ul></div>';
 				} else {
 					html += '<ul>';
 					for (var j = 0; j < notes.length; j++) {
-						html += '<li>' + notes[j].name + '</li>';
+						var location = notes[j].location;
+						var index = location.indexOf('NoteFolder');
+						location = location.substring(index).replace(/\\/g,'/');
+						location = encodeURI(location);
+						html += '<li name="' + location + '">' + notes[j].name + '</li>';
 					}
 					html += '</ul>';
 				}
@@ -88,12 +122,25 @@ MDN.index = function() {
 			var $note = $(this);
 			self.tabCount++;
 			var name = $note.html();
+			var location = $note.attr('name');
 			var index = name.lastIndexOf('.');
-			var title = name.substring(0,index);
-			$('#mdn-notepad').jdTabs_Add(title, 'mdn-tabs' + self.tabCount, true);
+			if(index > 0) {
+				name = name.substring(0,index);
+			}
+			$('#mdn-notepad').jdTabs_Add(name, 'mdn-tabs' + self.tabCount, true);
+			$('#mdn-tabs' + self.tabCount).jdMarkdown(location);
+			$('.mdn-head-title .title').html(name);
+			self.bindClickTabs();
 		});
 	};
-	
+	this.bindClickTabs = function() {
+		$('#mdn-notepad a.ui-tabs-anchor').click(function(){
+			var $item = $(this);
+			if($item.attr('href') != '#'+self.notesbarId) {
+				$('.mdn-head-title .title').html($item.html());
+			}
+		});
+	};
 };
 
 $(function(){

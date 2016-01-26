@@ -1,13 +1,15 @@
-- Note
-	- first tab width
-	- 显示Note内容 
-	- Markdown 样式
-- header
-- 样式修改
-- 使用
-- 增删改查
+1. header
+	- date
+	- bindClickHeadMenu
+1. 样式修改
+		- Markdown 样式
+		- 其他样式
+1. 使用
+1. menu第二种方式
+1. 增删改查
 	- Markdown.Editor
-	- 文件读写
 	- 内存数据库
+	- 排序
+	- 文件读写
 	- 全文检索
-- tabs show notes
+1. tabs show notes

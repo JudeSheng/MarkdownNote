@@ -1,0 +1,2 @@
+###让Tomcat服务器支持中文URL
+	<Connector connectionTimeout="20000" port="8080" URIEncoding="utf-8" protocol="HTTP/1.1" redirectPort="8443"/>
