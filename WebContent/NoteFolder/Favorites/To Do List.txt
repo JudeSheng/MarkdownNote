@@ -1,6 +1,7 @@
 1. header
 	- date
 	- bindClickHeadMenu
+	- add all tabs when click menu
 1. 样式修改
 		- Markdown 样式
 		- 其他样式
