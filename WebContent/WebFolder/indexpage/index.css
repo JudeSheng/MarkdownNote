@@ -1,6 +1,6 @@
 body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .clear {clear: both;}
-.mdn-menubar { width: 16%; height: 100%; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; }
+.mdn-menubar { width: 16%; height: 100%; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; overflow: auto; }
 .mdn-content { width: 84%; height: 150%; float: right; }
 .mdn-notepad { margin: 20px; }
 #mdn-notesbar ul { list-style-type: none; margin:0; padding:0; }
@@ -18,7 +18,7 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
    padding: 0 10px;
 }
 .mdn-notehead { margin-left:20px; font-family: Arial,sans-serif; }
-.mdn-head-main { width: 80%; float: left; }
+.mdn-head-main { width: 90%; float: left; }
 .mdn-head-main .main .mdn-head-logo{ height:inherit; float:left; margin-right: 16px; }
 .mdn-head-main .main .mdn-head-logo img{ width: 64px; height: 64px;}
 .mdn-head-main .main .mdn-head-menu .menu{ padding: 10px 0 4px 0; overflow: auto; }
@@ -26,9 +26,10 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .mdn-head-main .main .mdn-head-menu .menu span:hover { cursor: pointer; text-decoration: underline; }
 .mdn-head-main .main .mdn-head-menu .menu .current{ float:left; margin-right: 64px;}
 .mdn-head-main .main .mdn-head-menu .menu .current span{ font-size: 17px; }
+.mdn-head-main .main .mdn-head-menu .menu .children { max-height: 33px; }
 .mdn-head-main .main .mdn-head-menu .menu .children span{ font-size: 14px; font-weight: 400; margin-right: 8px;}
 .mdn-head-main .main .mdn-head-title{ overflow: auto; }
 .mdn-head-main .main .mdn-head-title .title{ width: 60%; min-height: 16px; float:left; font-size: 32px; font-weight: 500; }
 .mdn-head-main .mdn-head-date .date{ width: 60%; float:left; color: #707070; font-size: 12px; }
 .mdn-head-main .mdn-head-date{ padding-left: 10px; padding-top: 5px; }
-.mdn-head-option { height:inherit; width: 19%; float: left; }
+.mdn-head-option { height:inherit; width: 9%; float: left; }

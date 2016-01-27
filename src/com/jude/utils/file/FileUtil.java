@@ -11,9 +11,9 @@ import java.nio.file.attribute.UserPrincipal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.jude.utils.DateUtil;
-import com.jude.utils.StringUtil;
 
 public class FileUtil {
 	
@@ -35,11 +35,15 @@ public class FileUtil {
 		try {
 			BasicFileAttributes att = Files.readAttributes(path, BasicFileAttributes.class);
 			Date creationTime = new Date(att.creationTime().toMillis());
-			time = StringUtil.dateToString(creationTime, DateUtil.FORMAT_DATE_TIME_2);
+			time = DateUtil.dateToString(creationTime, DateUtil.FORMAT_DATE_TIME_2, Locale.ENGLISH);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return time;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getCreationTime(new File("F:\\workspace\\MarkdownNote\\src\\com\\jude\\utils\\file\\FileUtil.java")));
 	}
 	
 	public static FolderPojo getAll(File file) {
@@ -57,7 +61,7 @@ public class FileUtil {
 					childFile.setName(child.getName());
 					childFile.setLocation(child.getPath());
 					childFile.setCreationTime(getCreationTime(child));
-					childFile.setLastModifiedTime(StringUtil.dateToString(new Date(child.lastModified()), DateUtil.FORMAT_DATE_TIME_2));
+					childFile.setLastModifiedTime(DateUtil.dateToString(new Date(child.lastModified()), DateUtil.FORMAT_DATE_TIME_2, Locale.ENGLISH));
 					childFile.setOwner(getFileOwner(child));
 					childFiles.add(childFile);
 				} else if(child.isDirectory()) {

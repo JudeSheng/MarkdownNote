@@ -1,1 +1,3 @@
 replace(/\./g,'\\.');
+
+simpledateformat 英文日期格式

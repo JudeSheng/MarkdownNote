@@ -51,6 +51,7 @@ MDN.index = function() {
 				childKeys.push($child.attr('key'));
 			});
 			self.makeHeadMenuHtml(key, childKeys);
+			self.bindClickHeadMenu();
 			self.makeNotebarHtml(allKeys);
 			self.$notesbarTab.html($item.html());
 			self.$notesbarTab.click();
@@ -64,7 +65,14 @@ MDN.index = function() {
 		var htmlCurrent = '';
 		var keys = currentKey.split('.');
 		for (var i = 0; i < keys.length; i++) {
-			htmlCurrent += '<span>' + keys[i] + '</span>';
+			var key = '';
+			for (var j = 0; j < i + 1; j++) {
+				key += keys[j];
+				if(j != i) {
+					key += '.';
+				}
+			}
+			htmlCurrent += '<span key="' + key + '">' + keys[i] + '</span>';
 			if(i != keys.length-1) {
 				htmlCurrent += ' / ';
 			}
@@ -74,9 +82,16 @@ MDN.index = function() {
 		for (var i = 0; i < childKeys.length; i++) {
 			var key = childKeys[i];
 			var index = key.lastIndexOf('.');
-			htmlChildren += '<span>' + key.substring(index+1) + '</span>';
+			htmlChildren += '<span key="' + key + '">' + key.substring(index+1) + '</span>';
 		}
 		$('.mdn-head-menu .menu .children').html(htmlChildren);
+	};
+	this.bindClickHeadMenu = function() {
+		$('.mdn-head-menu .menu span').unbind('click').click(function(){
+			var $menu = $(this);
+			var key = $menu.attr('key');
+			$('.jd-menu-tree').find('[key="'+key+'"]').click();
+		});
 	};
 	this.makeNotebarHtml =function(keys) {
 		var html = '<div>';

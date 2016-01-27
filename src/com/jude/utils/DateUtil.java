@@ -1,9 +1,12 @@
 package com.jude.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DateUtil {
 	
@@ -56,6 +59,35 @@ public class DateUtil {
 	public static long getTimeCost(Date sDate, Date eDate) {
 		long time = eDate.getTime() - sDate.getTime();
 		return time;
+	}
+	
+	public static String dateToString(Date date, String format) {
+		if(date == null) {
+			return "";
+		}
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		String dateStr = df.format(date);
+		return dateStr;
+	}
+	
+	public static String dateToString(Date date, String format, Locale locale) {
+		if(date == null) {
+			return "";
+		}
+		SimpleDateFormat df = new SimpleDateFormat(format, locale);
+		String dateStr = df.format(date);
+		return dateStr;
+	}
+	
+	public static Date stringToDate(String dateStr, String format) {
+		Date date = null;
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		try {
+			date = df.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
 
 }
