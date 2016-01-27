@@ -10,6 +10,7 @@ public class DateUtil {
 	public static final String FORMAT_DATE_DEFAULT = "yyyy-MM-dd";
 	public static final String FORMAT_TIME_DEFAULT = "HH:mm:ss";
 	public static final String FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+	public static final String FORMAT_DATE_TIME_2 = "dd MMM yyyy HH:mm:ss";
 	
 	public static Date addDays(Date date, int days) {
 		Calendar calendar = Calendar.getInstance();

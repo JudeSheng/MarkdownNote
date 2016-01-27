@@ -5,21 +5,20 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .mdn-notepad { margin: 20px; }
 #mdn-notesbar ul { list-style-type: none; margin:0; padding:0; }
 #mdn-notesbar ul li { color: #3572B0; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
-#mdn-notesbar ul li:hover { cursor: pointer; text-decoration: underline;  }
+#mdn-notesbar ul li span:hover { cursor: pointer; text-decoration: underline;  }
 #mdn-notesbar .mdn-notesbar-folder ul { margin:0; padding: 16px 0 0 32px; }
 #mdn-notesbar .mdn-notesbar-titles span { font-size: 14px; color: #A4A4A4; }
 #mdn-notesbar .mdn-notesbar-titles .mdn-notesbar-folder-current  { font-size: 16px; color: #373D49; }
-.mdn-notepad li.mdn-notesbar-tab { padding-left: 10px; padding-right: 10px; }
 .mdn-notesbar-tab a { overflow: hidden; width: 80px; text-align: center; }
+.mdn-notepad li.mdn-notesbar-tab { padding-left: 10px; padding-right: 10px; }
 .ui-tabs-anchor {
     padding: 0.5em 0 !important;
 }
 .ui-tabs .ui-tabs-nav li {
    padding: 0 10px;
 }
-.mdn-notehead { height: 80px; margin-left:20px; font-family: Arial,sans-serif; }
-.mdn-head-main { height:inherit; width: 80%; float: left; }
-.mdn-head-main .main{ height:60px; }
+.mdn-notehead { margin-left:20px; font-family: Arial,sans-serif; }
+.mdn-head-main { width: 80%; float: left; }
 .mdn-head-main .main .mdn-head-logo{ height:inherit; float:left; margin-right: 16px; }
 .mdn-head-main .main .mdn-head-logo img{ width: 64px; height: 64px;}
 .mdn-head-main .main .mdn-head-menu .menu{ padding: 10px 0 4px 0; overflow: auto; }
@@ -30,6 +29,6 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .mdn-head-main .main .mdn-head-menu .menu .children span{ font-size: 14px; font-weight: 400; margin-right: 8px;}
 .mdn-head-main .main .mdn-head-title{ overflow: auto; }
 .mdn-head-main .main .mdn-head-title .title{ width: 60%; min-height: 16px; float:left; font-size: 32px; font-weight: 500; }
-.mdn-head-main .mdn-head-date .date{ width: 60%; float:left; }
-.mdn-head-main .mdn-head-date{ height:40px; }
+.mdn-head-main .mdn-head-date .date{ width: 60%; float:left; color: #707070; font-size: 12px; }
+.mdn-head-main .mdn-head-date{ padding-left: 10px; padding-top: 5px; }
 .mdn-head-option { height:inherit; width: 19%; float: left; }

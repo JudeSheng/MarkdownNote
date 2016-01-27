@@ -1,16 +1,22 @@
 1. header
-	- date
 	- bindClickHeadMenu
-	- add all tabs when click menu
 1. 样式修改
 		- Markdown 样式
 		- 其他样式
 1. 使用
-1. menu第二种方式
+	- 建立文件
+	- 整理
 1. 增删改查
+	- 常用Notes
+		- notes电击量
 	- Markdown.Editor
-	- 内存数据库
+	- 内存数据库？或者用spring catch 自己实现
 	- 排序
 	- 文件读写
+	- Add To Do List
 	- 全文检索
 1. tabs show notes
+1. 设置
+	- menu第二种方式
+	- add all tabs 配置
+	- 标题扩展功能默认设置

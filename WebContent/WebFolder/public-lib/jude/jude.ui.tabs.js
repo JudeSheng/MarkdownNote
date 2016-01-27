@@ -26,10 +26,10 @@ $(function(){
 		$('.ui-icon-close').unbind('click').click(function(){
 			$item = $(this);
 			var $tabsTitle = $item.parent();
-			$tabsTitle.remove();
 			var panelId = $tabsTitle.find('a').attr('href');
-			var $tabsPanelId = $(panelId);
-			$tabsPanelId.remove();
+			var $tabsPanel = $(panelId);
+			$tabsTitle.detach();
+			$tabsPanel.detach();
 			$tabs.tabs( "refresh" );
 		});
 		return $tabs;

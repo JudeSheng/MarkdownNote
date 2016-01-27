@@ -1,14 +1,16 @@
 package com.jude.utils.file;
 
-import java.util.Date;
-
 public class FilePojo {
 
 	private String name;
 	
 	private String location;
 	
-	private Date lastModified;
+	private String creationTime;
+	
+	private String lastModifiedTime;
+	
+	private String owner;
 
 	public String getName() {
 		return name;
@@ -26,17 +28,35 @@ public class FilePojo {
 		this.location = location;
 	}
 
-	public Date getLastModified() {
-		return lastModified;
+	public String getCreationTime() {
+		return creationTime;
 	}
 
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
+	public void setCreationTime(String creationTime) {
+		this.creationTime = creationTime;
+	}
+
+	public String getLastModifiedTime() {
+		return lastModifiedTime;
+	}
+
+	public void setLastModifiedTime(String lastModifiedTime) {
+		this.lastModifiedTime = lastModifiedTime;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 	@Override
 	public String toString() {
-		return "FilePojo [name=" + name + ", location=" + location + ", lastModified=" + lastModified + "]";
+		return "FilePojo [name=" + name + ", location=" + location
+				+ ", creationTime=" + creationTime + ", lastModifiedTime="
+				+ lastModifiedTime + ", owner=" + owner + "]";
 	}
-	
+
 }

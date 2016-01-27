@@ -5,7 +5,6 @@ MDN.index = function() {
 	this.notesbarObject = {};
 	this.notesbarId = 'mdn-notesbar';
 	this.$notesbarTab;
-	this.tabCount = 1;
 	this.init = function() {
 		self.createMenubar();
 	};
@@ -33,8 +32,8 @@ MDN.index = function() {
 		self.$notesbarTab = $('#mdn-notepad').find('[href="#' + self.notesbarId + '"]');
 		self.$notesbarTab.parent().addClass('mdn-notesbar-tab');
 		self.bindClickMenu();
-		$('.jd-menu-tree').find('li:eq(0)').click();
 		self.bindClickNote();
+		$('.jd-menu-tree').find('li:eq(0)').click();
 	};
 	this.bindClickMenu = function() {
 		$('.jd-menu-tree').find('li').click(function(){
@@ -54,6 +53,10 @@ MDN.index = function() {
 			self.makeHeadMenuHtml(key, childKeys);
 			self.makeNotebarHtml(allKeys);
 			self.$notesbarTab.html($item.html());
+			self.$notesbarTab.click();
+			
+			$('#mdn-notepad').find('.ui-icon-close').click();
+			$('.mdn-notesbar-current').find('li span').click();
 			self.$notesbarTab.click();
 		});
 	};
@@ -80,8 +83,17 @@ MDN.index = function() {
 		for (var i = 0; i < keys.length; i++) {
 			var notes = self.notesbarObject[keys[i]];
 			if(notes != undefined && notes.length > 0) {
-				
-				if(i != 0) {
+				if(i == 0) {
+					html += '<ul class="mdn-notesbar-current">';
+					for (var j = 0; j < notes.length; j++) {
+						var location = notes[j].location;
+						var index = location.indexOf('NoteFolder');
+						location = location.substring(index).replace(/\\/g,'/');
+						location = encodeURI(location);
+						html += '<li><span key="' + keys[i].replace(/\./g,'-') + "-" + j + '" name="' + location + '">' + notes[j].name + '</span></li>';
+					}
+					html += '</ul>';
+				} else {
 					html += '<div class="mdn-notesbar-folder">';
 					var keyArray = keys[i].split('.');
 					html += '<div class="mdn-notesbar-titles">';
@@ -98,19 +110,9 @@ MDN.index = function() {
 						var location = notes[j].location;
 						var index = location.indexOf('NoteFolder');
 						location = location.substring(index).replace(/\\/g,'/');
-						html += '<li name="' + location + '">' + notes[j].name + '</li>';
+						html += '<li><span key="' + keys[i].replace(/\./g,'-') + "-" + j + '" name="' + location + '">' + notes[j].name + '</span></li>';
 					}
 					html += '</ul></div>';
-				} else {
-					html += '<ul>';
-					for (var j = 0; j < notes.length; j++) {
-						var location = notes[j].location;
-						var index = location.indexOf('NoteFolder');
-						location = location.substring(index).replace(/\\/g,'/');
-						location = encodeURI(location);
-						html += '<li name="' + location + '">' + notes[j].name + '</li>';
-					}
-					html += '</ul>';
 				}
 			}
 		}
@@ -118,26 +120,56 @@ MDN.index = function() {
 		$('#' + self.notesbarId).html(html);
 	};
 	this.bindClickNote = function() {
-		$('#' + self.notesbarId).find('li').unbind('click').live('click', function(){
+		$('#' + self.notesbarId).find('li span').unbind('click').live('click', function(){
 			var $note = $(this);
-			self.tabCount++;
-			var name = $note.html();
+			var noteHtml = $note.html();
 			var location = $note.attr('name');
-			var index = name.lastIndexOf('.');
+			var key = $note.attr('key');
+			var index = noteHtml.lastIndexOf('.');
+			var name = '';
 			if(index > 0) {
-				name = name.substring(0,index);
+				name = noteHtml.substring(0,index);
+			} else {
+				name = noteHtml;
 			}
-			$('#mdn-notepad').jdTabs_Add(name, 'mdn-tabs' + self.tabCount, true);
-			$('#mdn-tabs' + self.tabCount).jdMarkdown(location);
-			$('.mdn-head-title .title').html(name);
-			self.bindClickTabs();
+			if($("#" + key).length > 0) {
+				$('[href="#' + key + '"]').click();
+			} else {
+				$('#mdn-notepad').jdTabs_Add(name, key, true);
+				$("#" + key).jdMarkdown(location);
+				self.bindClickTabs();
+				$('.mdn-head-title .title').html(name);
+			}
+			
+			self.createDateHtml(key);
 		});
+	};
+	this.createDateHtml = function(key) {
+		var notesbarKeyArray = key.split('-');
+		var notesbarKey = '';
+		var notesbarindex = 0;
+		for (var i = 0; i < notesbarKeyArray.length; i++) {
+			if(i == notesbarKeyArray.length - 1) {
+				notesbarindex = notesbarKeyArray[i];
+			} else {
+				notesbarKey += notesbarKeyArray[i];
+				if(i != notesbarKeyArray.length - 2) {
+					notesbarKey += '.';
+				}
+			}
+		}
+		var lastModifiedTime = self.notesbarObject[notesbarKey][notesbarindex].lastModifiedTime;
+		var creationTime = self.notesbarObject[notesbarKey][notesbarindex].creationTime;
+		var owner = self.notesbarObject[notesbarKey][notesbarindex].owner;
+		$('.mdn-head-date .date span').html('Last modified on ' + lastModifiedTime + ' . Created by ' + owner + ' on ' + creationTime);
 	};
 	this.bindClickTabs = function() {
 		$('#mdn-notepad a.ui-tabs-anchor').click(function(){
 			var $item = $(this);
-			if($item.attr('href') != '#'+self.notesbarId) {
+			var key = $item.attr('href').substring(1);
+			if(key != self.notesbarId) {
 				$('.mdn-head-title .title').html($item.html());
+				self.createDateHtml(key);
 			}
 		});
 	};
