@@ -56,8 +56,8 @@ MDN.index = function() {
 			self.$notesbarTab.html($item.html());
 			self.$notesbarTab.click();
 			
-			$('#mdn-notepad').find('.ui-icon-close').click();
-			$('.mdn-notesbar-current').find('li span').click();
+			//$('#mdn-notepad').find('.ui-icon-close').click();
+			//$('.mdn-notesbar-current').find('li span').click();
 			self.$notesbarTab.click();
 		});
 	};

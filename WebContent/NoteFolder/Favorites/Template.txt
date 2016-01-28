@@ -20,3 +20,5 @@ Premain
 方法就是左侧的div用float:left.而右侧的div不带float.这样就可以实现这个效果了.
 
 - Markdown js 学习
+
+detach()

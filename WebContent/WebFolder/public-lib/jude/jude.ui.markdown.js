@@ -70,8 +70,9 @@
 				var $p = $(this);
 				var html = $p.html();
 				if(html.substring(0,4) == '&gt;') {
-					html = html.replace(/&gt;/g, '<br>');
-					$p.html('<blockquote><p>' + html + '</p></blockquote>');
+					html = html.substring(4,html.length).replace(/&gt;/g, '<br>');
+					$p.before('<blockquote><p>' + html + '</p></blockquote>');
+					$p.detach();
 				}
 			});
 		};

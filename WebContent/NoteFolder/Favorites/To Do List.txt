@@ -1,32 +1,37 @@
 1. 样式修改
 	- Markdown 样式
-		- collapse
-		- >
-		- font
-			h , - , > , a , code ,  
-		- code
-		- a
-		- list
+		- list颜色由深入浅 
+		- code 边框，间隔背景， 小字，不同字体
+		- 所有字体和大小比例调整
 	- 其他样式
+		- panel高度或者panel不要滚动
+		- 中文字体
+- 初始化显示Note
+- Markdown.Editor?
 - 双击打开文件夹
 - 双击打开文件
+- Expand all
+- Close all tabs
 1. 使用
 	- 建立文件
 	- 整理
 1. 增删改查
+
 	- 常用Notes
 		- notes电击量
-	- Markdown.Editor?
 	- 内存数据库？或者用spring catch 自己实现
 	- 排序
 	- 文件读写
 	- Add To Do List
 	- 全文检索?
 1. tabs show notes
+1. code java,js等的代码样式？
 1. 设置
 	- menu第二种方式
 	- add all tabs 配置
 	- 标题扩展功能默认设置
 	- note 最大化
 	- help页面
+- LOGO
 - 自定义Markdown标签
+- #, -, a, code, #@, img

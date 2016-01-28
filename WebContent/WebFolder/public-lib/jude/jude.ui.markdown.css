@@ -1,8 +1,19 @@
-.jd-mkd-panel .jd-mkd-collapseable { cursor: pointer; color: #3572B0; font-size: 15px; font-weight: bold; }
+.jd-mkd-panel { font-size: 14px; line-height: 21px; }
+.jd-mkd-panel .jd-mkd-collapseable { cursor: pointer; color: #272727; font-size: 15px; font-weight: bold; }
 .jd-mkd-panel .jd-mkd-collapseable:hover { text-decoration: underline; }
 .jd-mkd-panel .jd-mkd-img { float: left; margin: 1px 8px 0 0; }
 .jd-mkd-panel .jd-mkd-img img{ width: 16px; height: 16px; }
-.jd-mkd-panel .jd-mkd-line { border-top: 1px solid #CCC; }
+.jd-mkd-panel .jd-mkd-line { border-top: 1px solid #CCC; margin: 12px 0; }
 .jd-mkd-panel .jd-mkd-rightimg { width: 14px; height: 14px; float: right; margin-right: 32px; }
 .jd-mkd-panel .jd-mkd-down { background: url("images/updown.png") -10px 6px; }
 .jd-mkd-panel .jd-mkd-up { background: url("images/updown.png") -10px -18px; }
+.jd-mkd-panel blockquote p { font-size: 13px;color: #373D49; font-style: italic; margin-top: 0px; margin-bottom: 5px; padding: 10px 16px 16px 16px; border-left: 3px solid #A0AABF; line-height: 28px; }
+.jd-mkd-panel h1,h2,h3,h4,h5,h6 { 
+	font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-feature-settings: "dlig", "liga", "lnum", "kern";
+	font-style: normal;
+	font-weight: 600;
+	margin-top: 0px; 
+	color: #272727;
+}
+.jd-mkd-panel a { color: #2A80EE; }

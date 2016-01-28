@@ -2,7 +2,7 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .clear {clear: both;}
 .mdn-menubar { width: 16%; height: 100%; background: #EEE; border: solid 1px #CCC; float: left; position: fixed; padding-top: 50px; overflow: auto; }
 .mdn-content { width: 84%; height: 150%; float: right; }
-.mdn-notepad { margin: 20px; }
+.mdn-notepad { margin: 8px 6px 10px 20px; }
 #mdn-notesbar ul { list-style-type: none; margin:0; padding:0; }
 #mdn-notesbar ul li { color: #3572B0; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
 #mdn-notesbar ul li span:hover { cursor: pointer; text-decoration: underline;  }
