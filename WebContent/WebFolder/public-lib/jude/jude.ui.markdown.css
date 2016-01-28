@@ -1,2 +1,8 @@
-.jd-mk-panel h1,h2,h3,h4,h5,h6 { cursor: pointer; color: #373D49; font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif; margin: 10px 0;}
-.jd-mk-panel .md-title-collapse { border-bottom: 1px solid #CCC;  }
+.jd-mkd-panel .jd-mkd-collapseable { cursor: pointer; color: #3572B0; font-size: 15px; font-weight: bold; }
+.jd-mkd-panel .jd-mkd-collapseable:hover { text-decoration: underline; }
+.jd-mkd-panel .jd-mkd-img { float: left; margin: 1px 8px 0 0; }
+.jd-mkd-panel .jd-mkd-img img{ width: 16px; height: 16px; }
+.jd-mkd-panel .jd-mkd-line { border-top: 1px solid #CCC; }
+.jd-mkd-panel .jd-mkd-rightimg { width: 14px; height: 14px; float: right; margin-right: 32px; }
+.jd-mkd-panel .jd-mkd-down { background: url("images/updown.png") -10px 6px; }
+.jd-mkd-panel .jd-mkd-up { background: url("images/updown.png") -10px -18px; }

@@ -1,3 +1,22 @@
 replace(/\./g,'\\.');
+ result.replace(/\<p\>{\<\/p\>/g, '<div class="md-title-collapse">').replace(/\<p\>}\<\/p\>/g, '</div>');
 
 simpledateformat 英文日期格式
+
+jquery 获取标签名 $item[0].tagName;
+
+Array.indexOf(str) > -1
+
+jquery在元素之前插入 before
+
+js转换字符为小写
+
+- 转换成大写：toUpperCase()
+-转换成小写：toLowerCase()
+
+SimpleDateFomate 线程不安全
+Premain
+
+方法就是左侧的div用float:left.而右侧的div不带float.这样就可以实现这个效果了.
+
+- Markdown js 学习

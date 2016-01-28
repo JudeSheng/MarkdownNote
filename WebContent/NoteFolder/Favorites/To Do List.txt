@@ -1,6 +1,13 @@
 1. 样式修改
-		- Markdown 样式
-		- 其他样式
+	- Markdown 样式
+		- collapse
+		- >
+		- font
+			h , - , > , a , code ,  
+		- code
+		- a
+		- list
+	- 其他样式
 - 双击打开文件夹
 - 双击打开文件
 1. 使用
@@ -21,3 +28,5 @@
 	- add all tabs 配置
 	- 标题扩展功能默认设置
 	- note 最大化
+	- help页面
+- 自定义Markdown标签
