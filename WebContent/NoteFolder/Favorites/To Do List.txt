@@ -34,4 +34,26 @@
 	- help页面
 - LOGO
 - 自定义Markdown标签
-- #, -, a, code, #@, img
+- 跨平台, 离线, 开放性, 共享性, 整合能力, 国际化
+- 完整树结构
+- 生成静态HTML,静态博文
+- #, -, a, code, #@, img, br, *******
+
+- Jade
+- Jinja2
+
+- Marboo
+- FarBox
+- Dropbox
+- Jekyll
+- Octopress
+- Hexo
+- Site44、DropPages
+- scriptogr.am/calepin.co/Pelican
+- postach.io+Evernote
+- CDN?
+- Nano Network
+- Ghost
+- doc.farbox.com we.farbox.com todo.farbox.com
+- FarBox Editor
+- Github Pages

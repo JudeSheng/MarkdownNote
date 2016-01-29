@@ -13,7 +13,7 @@
 ### 大标题
 
 > sThe overriding design goal for Markdown's
-The overriding design goal for Markdown's
+> The overriding design goal for Markdown's
 The overriding design goal for Markdown's
 The overriding design goal for Markdown's
 
