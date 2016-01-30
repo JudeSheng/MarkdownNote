@@ -1,4 +1,4 @@
-.jd-mkd-panel { font-size: 14px; line-height: 21px; }
+.jd-mkd-panel { font-size: 13px; line-height: 21px; }
 .jd-mkd-panel .jd-mkd-collapseable { cursor: pointer; color: #272727; font-size: 15px; font-weight: bold; }
 .jd-mkd-panel .jd-mkd-collapseable:hover { text-decoration: underline; }
 .jd-mkd-panel .jd-mkd-img { float: left; margin: 1px 8px 0 0; }
@@ -17,3 +17,7 @@
 	color: #272727;
 }
 .jd-mkd-panel a { color: #2A80EE; }
+.jd-mkd-panel pre { border: 1px solid #B9B9FF; border-radius: 4px; padding: 10px; }
+.jd-mkd-panel li { color: #000000; }
+.jd-mkd-panel li li{ color: #4F4F4F; }
+.jd-mkd-panel li li li{ color: #272727; }
