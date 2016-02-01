@@ -1,7 +1,7 @@
 [Download Spring](http://repo.spring.io/release/org/springframework/spring/) 
 [Download Struts2](http://struts.apache.org/download.cgi#struts23241)
 
-#@ web.xml加载spring, struts2
+^^^^^^^^^^^^^web.xml加载spring, struts2^^^^^^^^^^^^^
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -20,8 +20,8 @@
 	    <filter-name>struts2</filter-name>
 	        <url-pattern>*.action</url-pattern>
 	</filter-mapping>
-
-#@ applicationContext.xml
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^ applicationContext.xml^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	<?xml version="1.0" encoding="UTF-8"?>
 	<beans xmlns="http://www.springframework.org/schema/beans"
@@ -60,7 +60,7 @@
 		</bean>
 	
 	</beans>
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ### spring-farmework-4.2.4 on 17-Dec-2015
 1. 最少所需依赖包
 	- spring-core-4.2.4.RELEASE.jar
@@ -85,4 +85,3 @@
 	- struts2-json-plugin-2.3.24.1.jar **Use json-default package**
 	- asm-commons-3.3.jar **需要但有时候不报错**
 	- struts2-config-browser-plugin-2.3.24.1.jar **/config-browser/actionNames.action**
-}

@@ -2,87 +2,36 @@
 	$.fn.jdMarkdown = function(filePath) {
 		var $item = this;
 		filePath = filePath.replace(/ /g, '%20');
-		var headArray = ['h1','h2','h3','h4','h5','h6'];
 		var imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
 		var imgExpand = 'WebFolder/public-lib/jude/images/expand.gif';
-		$item.addClass('jd-mkd-panel');
-		
-		//#@ Collapseable
-		var createCollapseableMD = function() {
-			$item.find('h1').each(function(){
-				var $h1 = $(this);
-				var html = $h1.html();
-				if(html.substring(0,1) === '@') {
-					$h1.addClass('jd-mkd-collapseable');
-					$h1.html('<span class="jd-mkd-img"><img src="' + imgCollapse + '"></img></span><span>' + html.substring(1, html.length) + '</span><span class="jd-mkd-rightimg jd-mkd-down"></span>');
-					var $next = $h1.next();
-					while(true) {
-						if($next.length <= 0) {
-							break;
-						}
-						var tagName = $next[0].tagName;
-						if(headArray.indexOf(tagName.toLowerCase()) > -1) {
-							$next.before('<div class="jd-mkd-line"></div>');
-							break;
-						} else {
-							$next.hide();
-							$next = $next.next();
-						}
-					}
-				}
-			});
-			
-			$item.find('.jd-mkd-collapseable').unbind('click').click(function(){
-				var $h1 = $(this);
-				var img = $h1.find('img').attr('src');
+		$item.addClass('jd-md-panel');
+		var bindClickCollapseable = function() {
+			$item.find('.jd-md-collContent').hide();
+			$item.find('.jd-md-collTitle').unbind('click').click(function(){
+				var $title = $(this);
+				var img = $title.find('img').attr('src');
 				if(imgExpand == img) {
-					$h1.find('img').attr('src', imgCollapse);
-					$h1.find('.jd-mkd-rightimg').removeClass('jd-mkd-up');
-					$h1.find('.jd-mkd-rightimg').addClass('jd-mkd-down');
+					$title.find('img').attr('src', imgCollapse);
+					$title.find('.jd-md-rightimg').removeClass('jd-md-up');
+					$title.find('.jd-md-rightimg').addClass('jd-md-down');
 				} else if(imgCollapse == img) {
-					$h1.find('img').attr('src', imgExpand);
-					$h1.find('.jd-mkd-rightimg').removeClass('jd-mkd-down');
-					$h1.find('.jd-mkd-rightimg').addClass('jd-mkd-up');
+					$title.find('img').attr('src', imgExpand);
+					$title.find('.jd-md-rightimg').removeClass('jd-md-down');
+					$title.find('.jd-md-rightimg').addClass('jd-md-up');
 				}
-				var html = $h1.html();
-				var $next = $h1.next();
-				while(true) {
-					if($next.length <= 0) {
-						break;
-					}
-					var tagName = $next[0].tagName;
-					if(headArray.indexOf(tagName.toLowerCase()) > -1 || $next.attr('class') === 'jd-mkd-line') {
-						break;
-					} else {
-						if(imgExpand == img) {
-							$next.slideUp(100);
-						} else if(imgCollapse == img) {
-							$next.slideDown(100);
-						}
-						$next = $next.next();
-					}
+				var $content = $title.parent().find('.jd-md-collContent');
+				if(imgExpand == img) {
+					$content.slideUp(100);
+				} else if(imgCollapse == img) {
+					$content.slideDown(100);
 				}
 			});
 		};
-		// >  Block quotes
-		var createBlockQuotesMD = function() {
-			$item.find('p').each(function(){
-				var $p = $(this);
-				var html = $p.html();
-				if(html.substring(0,4) == '&gt;') {
-					html = html.substring(4,html.length).replace(/&gt;/g, '<br>');
-					$p.before('<blockquote><p>' + html + '</p></blockquote>');
-					$p.detach();
-				}
-			});
-		};
-		$item.load(filePath, function() {
-			var html = $item.html();
+		$item.load(filePath, function(_html) {
 			var converter = new Markdown.Converter();
-			var result = converter.makeHtml(html);
+			var result = converter.makeHtml(_html);
 			$item.html(result);
-			createCollapseableMD();
-			createBlockQuotesMD();
+			bindClickCollapseable();
 		});
 	};
 })(jQuery);
