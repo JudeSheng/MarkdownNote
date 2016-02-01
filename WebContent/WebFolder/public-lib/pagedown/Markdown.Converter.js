@@ -395,6 +395,7 @@ else
             text = _DoLists(text);
             text = _DoCodeBlocks(text);
             text = _DoBlockQuotes(text);
+            text = _DoCollapseable(text);//Add by Jude
 
             // We already ran _HashHTMLBlocks() before, in Markdown(), but that
             // was to escape raw HTML in the original Markdown source. This time,
@@ -1100,6 +1101,20 @@ else
                 }
             );
             return text;
+        }
+        
+        //Add by Jude
+        function _DoCollapseable(text) {
+        	var imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
+            var reg = /\^{3,}/;
+			var bool = reg.test(text);
+			while(bool) {
+				text = text.replace(reg, '<div class="jd-md-collapseable"><div class="jd-md-collTitle"><span class="jd-md-img"><img src="' + imgCollapse + '"></img></span><span>')
+					.replace(reg, '</span><span class="jd-md-rightimg jd-md-down"></span></div><div class="jd-md-collContent">')
+					.replace(reg, '</div></div>');
+				bool = reg.test(text);
+			}
+			return text;
         }
 
         function _FormParagraphs(text, doNotUnhash) {
