@@ -1,4 +1,4 @@
-#@ Markdown Note 1.0 to do list
+^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
 - 样式修改
 	1. Markdown 样式
 		- code 小字，不同字体
@@ -16,16 +16,17 @@
 - 使用
 	1. 建立文件
 	1. 整理
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#@ Markdown Note 1.0
+^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 ^^^^^^^^^^^^^^^^^^^
 - Menubar  
 	the menubar is come from the folder on the server
 - Markdown  
 	just support the basic markdown rules
 - Editor  
 	transparent editor 1.0 
-
-#@ Markdown Note 2.0
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^ Markdown Note 2.0 ^^^^^^^^^^^^^^^^^^^
 
 - 基本要求
 1. 方便使用，操作简单 ： 跨平台支持
@@ -47,8 +48,9 @@
 6. 如何增加安全性
 7. 是否需要针对不同的人显示不同的特新
 8. 是否需要包容各种人的需求，要知道这样会的弊端是容易变得不纯粹。
-	
-#@ Markdown Note 2.0 to do list
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^	
+
+^^^^^^^^^^^^^^^^^^^ Markdown Note 2.0 to do list ^^^^^^^^^^^^^^^^^^^
 - 接入Dropbox
 - Add To Do List
 - 常用Notes, notes电击量
@@ -65,8 +67,9 @@
 - 保险箱功能
 - 全屏分两页显示
 - 树状多tabs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-#@ 参考借鉴
+^^^^^^^^^^^^^^^^^^^ 参考借鉴 ^^^^^^^^^^^^^^^^^^^
 - Jade
 - Jinja2
 - Marboo
@@ -84,3 +87,4 @@
 - doc.farbox.com we.farbox.com todo.farbox.com
 - FarBox Editor
 - Github Pages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
