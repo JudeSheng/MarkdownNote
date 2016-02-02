@@ -35,12 +35,12 @@
 				$item.find('.jd-md-panelt').find('img').attr('src', imgCollapse);
 				$item.find('.jd-md-panel').find('.jd-md-rightimg').removeClass('jd-md-up');
 				$item.find('.jd-md-panel').find('.jd-md-rightimg').addClass('jd-md-down');
-				$item.find('.jd-md-panel').hide();
+				$item.find('.jd-md-collContent').hide();
 			} else {
 				$item.find('.jd-md-panel').find('img').attr('src', imgExpand);
 				$item.find('.jd-md-panel').find('.jd-md-rightimg').removeClass('jd-md-down');
 				$item.find('.jd-md-panel').find('.jd-md-rightimg').addClass('jd-md-up');
-				$item.find('.jd-md-panel').show();
+				$item.find('.jd-md-collContent').show();
 			}
 			$item.find('.jd-md-panel').css('height', height);
 		});
