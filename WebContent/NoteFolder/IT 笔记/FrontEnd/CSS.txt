@@ -1,0 +1,5 @@
+- li的宽度自适应
+	- display:inline
+	
+- ul去除样式
+	- list-style:none;

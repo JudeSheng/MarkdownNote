@@ -1,5 +1,6 @@
 package com.jude.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +9,13 @@ public class StringUtil {
 
 	public static final String SPACE = " ";
 	public static final String TAB = "	";
+	
+	private final static int[] li_SecPosValue = { 1601, 1637, 1833, 2078, 2274,  
+         2302, 2433, 2594, 2787, 3106, 3212, 3472, 3635, 3722, 3730, 3858,  
+         4027, 4086, 4390, 4558, 4684, 4925, 5249, 5590 };  
+	private final static String[] lc_FirstLetter = { "a", "b", "c", "d", "e",  
+         "f", "g", "h", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",  
+         "t", "w", "x", "y", "z" };  
 	
 	public static String dateToString(Date date, String format) {
 		if(date == null) {
@@ -36,6 +44,32 @@ public class StringUtil {
 		return false;
 	}
 	
+	public  boolean isChinese(char c) {  
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);  
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A  
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  
+            return true;  
+        }  
+        return false;  
+    }  
+	
+	public static String chineseToUnicode(String str){  
+        String result="";  
+        for (int i = 0; i < str.length(); i++){  
+            int chr1 = (char) str.charAt(i);  
+            if(chr1>=19968&&chr1<=171941){//æ±‰å­—èŒƒå›´ \u4e00-\u9fa5 (ä¸­æ–‡)  
+                result+="\\u" + Integer.toHexString(chr1);  
+            }else{  
+                result+=str.charAt(i);  
+            }  
+        }  
+        return result;  
+    }  
+	
 	public static String decode(String in) {  
         try {  
             return decode(in.toCharArray());  
@@ -45,7 +79,7 @@ public class StringUtil {
         return in;  
     }  
   
-	public static String covtChineseToPY(String str) {
+	public static String chineseToPY(String str) {
 		if(str == null) {
 			return "";
 		}
@@ -53,9 +87,9 @@ public class StringUtil {
 		String tempStr = "";
 		for (int i = 0; i < str.length(); i++) {
 			char c = str.charAt(i);
-			if (c >= 33 && c <= 126) {// ×ÖÄ¸ºÍ·ûºÅÔ­Ñù±£Áô
+			if (c >= 33 && c <= 126) {// ï¿½ï¿½Ä¸ï¿½Í·ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½
 				tempStr += String.valueOf(c);
-			} else {// ÀÛ¼ÓÆ´ÒôÉùÄ¸
+			} else {// ï¿½Û¼ï¿½Æ´ï¿½ï¿½ï¿½ï¿½Ä¸
 				tempStr += getPYChar(String.valueOf(c));
 			}
 		}
@@ -125,17 +159,17 @@ public class StringUtil {
         while (off < in.length) {  
             c = in[off++];  
             if (c == '\\') {  
-                if (in.length > off) { // ÊÇ·ñÓÐÏÂÒ»¸ö×Ö·û  
-                    c = in[off++]; // È¡³öÏÂÒ»¸ö×Ö·û  
+                if (in.length > off) { // ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½  
+                    c = in[off++]; // È¡ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½  
                 } else {  
-                    out[outLen++] = '\\'; // Ä©×Ö·ûÎª'\'£¬·µ»Ø  
+                    out[outLen++] = '\\'; // Ä©ï¿½Ö·ï¿½Îª'\'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
                     break;  
                 }  
-                if (c == 'u') { // Èç¹ûÊÇ"\\u"  
+                if (c == 'u') { // ï¿½ï¿½ï¿½ï¿½ï¿½"\\u"  
                     int value = 0;  
-                    if (in.length > off + 4) { // ÅÐ¶Ï"\\u"ºó±ßÊÇ·ñÓÐËÄ¸ö×Ö·û  
+                    if (in.length > off + 4) { // ï¿½Ð¶ï¿½"\\u"ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ö·ï¿½  
                         boolean isUnicode = true;  
-                        for (int i = 0; i < 4; i++) { // ±éÀúËÄ¸ö×Ö·û  
+                        for (int i = 0; i < 4; i++) { // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ö·ï¿½  
                             c = in[off++];  
                             switch (c) {  
                             case '0':  
@@ -167,24 +201,24 @@ public class StringUtil {
                                 value = (value << 4) + 10 + c - 'A';  
                                 break;  
                             default:  
-                                isUnicode = false; // ÅÐ¶ÏÊÇ·ñÎªunicodeÂë  
+                                isUnicode = false; // ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªunicodeï¿½ï¿½  
                             }  
                         }  
-                        if (isUnicode) { // ÊÇunicodeÂë×ª»»Îª×Ö·û  
+                        if (isUnicode) { // ï¿½ï¿½unicodeï¿½ï¿½×ªï¿½ï¿½Îªï¿½Ö·ï¿½  
                             out[outLen++] = (char) value;  
-                        } else { // ²»ÊÇunicodeÂë°Ñ"\\uXXXX"ÌîÈë·µ»ØÖµ  
+                        } else { // ï¿½ï¿½ï¿½ï¿½unicodeï¿½ï¿½ï¿½"\\uXXXX"ï¿½ï¿½ï¿½ë·µï¿½ï¿½Öµ  
                             off = off - 4;  
                             out[outLen++] = '\\';  
                             out[outLen++] = 'u';  
                             out[outLen++] = in[off++];  
                         }  
-                    } else { // ²»¹»ËÄ¸ö×Ö·ûÔò°Ñ"\\u"·ÅÈë·µ»Ø½á¹û²¢¼ÌÐø  
+                    } else { // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½"\\u"ï¿½ï¿½ï¿½ë·µï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½  
                         out[outLen++] = '\\';  
                         out[outLen++] = 'u';  
                         continue;  
                     }  
                 } else {  
-                    switch (c) { // ÅÐ¶Ï"\\"ºó±ßÊÇ·ñ½ÓÌØÊâ×Ö·û£¬»Ø³µ£¬tabÒ»ÀàµÄ  
+                    switch (c) { // ï¿½Ð¶ï¿½"\\"ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ø³ï¿½ï¿½ï¿½tabÒ»ï¿½ï¿½ï¿½  
                     case 't':  
                         c = '\t';  
                         out[outLen++] = c;  
@@ -213,4 +247,74 @@ public class StringUtil {
         }  
         return new String(out, 0, outLen);  
     } 
+    
+    /** 
+     * å–å¾—ç»™å®šæ±‰å­—ä¸²çš„é¦–å­—æ¯ä¸²,å³å£°æ¯ä¸² 
+     * @param str ç»™å®šæ±‰å­—ä¸² 
+     * @return å£°æ¯ä¸² 
+     */  
+    public static String chineseToPYSZM(String str) {  
+        if (str == null || str.trim().length() == 0) {  
+            return "";  
+        }  
+  
+        String _str = "";  
+        for (int i = 0; i < str.length(); i++) {  
+            _str = _str + getFirstLetter(str.substring(i, i + 1));  
+        }  
+  
+        return _str;  
+    }  
+  
+    /** 
+     * å–å¾—ç»™å®šæ±‰å­—çš„é¦–å­—æ¯,å³å£°æ¯ 
+     * @param chinese ç»™å®šçš„æ±‰å­— 
+     * @return ç»™å®šæ±‰å­—çš„å£°æ¯ 
+     */  
+    public static String getFirstLetter(String chinese) {  
+        if (chinese == null || chinese.trim().length() == 0) {  
+            return "";  
+        }  
+        chinese = conversionStr(chinese, "GB2312", "ISO8859-1");  
+  
+        if (chinese.length() > 1) // åˆ¤æ–­æ˜¯ä¸æ˜¯æ±‰å­—  
+        {  
+            int li_SectorCode = (int) chinese.charAt(0); // æ±‰å­—åŒºç   
+            int li_PositionCode = (int) chinese.charAt(1); // æ±‰å­—ä½ç   
+            li_SectorCode = li_SectorCode - 160;  
+            li_PositionCode = li_PositionCode - 160;  
+            int li_SecPosCode = li_SectorCode * 100 + li_PositionCode; // æ±‰å­—åŒºä½ç   
+            if (li_SecPosCode > 1600 && li_SecPosCode < 5590) {  
+                for (int i = 0; i < 23; i++) {  
+                    if (li_SecPosCode >= li_SecPosValue[i]  
+                            && li_SecPosCode < li_SecPosValue[i + 1]) {  
+                        chinese = lc_FirstLetter[i];  
+                        break;  
+                    }  
+                }  
+            } else // éžæ±‰å­—å­—ç¬¦,å¦‚å›¾å½¢ç¬¦å·æˆ–ASCIIç   
+            {  
+                chinese = conversionStr(chinese, "ISO8859-1", "GB2312");  
+                chinese = chinese.substring(0, 1);  
+            }  
+        }  
+  
+        return chinese;  
+    }  
+  
+    /** 
+     * å­—ç¬¦ä¸²ç¼–ç è½¬æ¢ 
+     * @param str è¦è½¬æ¢ç¼–ç çš„å­—ç¬¦ä¸² 
+     * @param charsetName åŽŸæ¥çš„ç¼–ç  
+     * @param toCharsetName è½¬æ¢åŽçš„ç¼–ç  
+     * @return ç»è¿‡ç¼–ç è½¬æ¢åŽçš„å­—ç¬¦ä¸² 
+     */  
+    private static String conversionStr(String str, String charsetName,String toCharsetName) {  
+        try {  
+            str = new String(str.getBytes(charsetName), toCharsetName);  
+        } catch (UnsupportedEncodingException e) {  
+            e.printStackTrace();
+        }  
+        return str;  
+    }  
 }

@@ -1,4 +1,4 @@
-.jd-md-panel { font-size: 13px; line-height: 21px; }
+.jd-md-panel { font-size: 13px; line-height: 21px; overflow: auto; margin: 0 0 16px 20px; padding-top: 20px; }
 /**** Collapseable Style ***/
 .jd-md-panel .jd-md-collapseable{ border-bottom: 1px solid #CCC;  padding-bottom: 10px; margin-bottom: 10px; }
 .jd-md-panel .jd-md-collContent { padding-left: 24px; padding-top: 10px;}
@@ -21,6 +21,9 @@
 }
 .jd-md-panel a { color: #2A80EE; }
 .jd-md-panel pre { border: 1px solid #B9B9FF; border-radius: 4px; padding: 10px; }
-.jd-md-panel li { color: #000000; }
-.jd-md-panel li li{ color: #4F4F4F; }
-.jd-md-panel li li li{ color: #272727; }
+.jd-md-panel li { color: #000000; line-height: 22px;  }
+.jd-md-panel li p { margin-top: 0; margin-bottom: 0; }
+.jd-md-panel li li{ color: #4F4F4F; text-decoration: none; line-height: 20px;  }
+.jd-md-panel li li li{ color: #272727; line-height: 20px; }
+.jd-md-panel li > ul { list-style: none; padding-left: 10px; margin-top: 10px; margin-bottom: 10px; }
+.jd-md-panel li > ol { margin-top: 10px; margin-bottom: 10px; }

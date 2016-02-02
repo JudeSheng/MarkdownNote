@@ -36,11 +36,11 @@ public class MenubarService {
 		} else {
 			key = parentName + "." +folder.getName();
 		}
+		key = StringUtil.chineseToPYSZM(key);
 		key = key.replaceAll(" ", "");
 		if(!"NoteFolder".equals(key)) {
 			notesMap.put(key, files);
 		}
-		
 		
 		MenubarPojo menu = new MenubarPojo();
 		List<MenubarPojo> childMenuList = new ArrayList<MenubarPojo>();

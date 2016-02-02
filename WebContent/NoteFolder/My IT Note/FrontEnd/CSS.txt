@@ -1,2 +1,0 @@
--li的宽度自适应
-	display:inline

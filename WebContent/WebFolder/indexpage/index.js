@@ -5,6 +5,7 @@ MDN.index = function() {
 	this.notesbarObject = {};
 	this.notesbarId = 'mdn-notesbar';
 	this.$notesbarTab;
+	this.mdHeight = $(window).height() - 210;
 	this.init = function() {
 		self.createMenubar();
 	};
@@ -132,7 +133,8 @@ MDN.index = function() {
 			}
 		}
 		html += '</div>';
-		$('#' + self.notesbarId).html(html);
+		$('#' + self.notesbarId).html('<div class="jd-md-panel">' + html + '</div>');
+		$('.jd-md-panel').css('height', self.mdHeight);
 	};
 	this.bindClickNote = function() {
 		$('#' + self.notesbarId).find('li span').unbind('click').live('click', function(){
@@ -151,7 +153,7 @@ MDN.index = function() {
 				$('[href="#' + key + '"]').click();
 			} else {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
-				$("#" + key).jdMarkdown(location);
+				$("#" + key).jdMarkdown(location, self.mdHeight);
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
 			}
