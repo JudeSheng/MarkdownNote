@@ -24,7 +24,9 @@ The overriding design goal for Markdown's
 
 <marquee>I'm the ghost from the past!</marquee>
 
-w**or**d
+w**or**d 
+ 
+с**ло́в**о
 
 http://dillinger.io/
 

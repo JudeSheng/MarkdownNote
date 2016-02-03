@@ -1,4 +1,6 @@
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
+- 支持换行
+- code
 - Markdown.Editor
 - 双击打开文件夹
 - 双击打开文件

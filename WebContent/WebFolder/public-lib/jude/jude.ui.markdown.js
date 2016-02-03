@@ -26,7 +26,7 @@
 			});
 		};
 		$item.load(filePath, function(_html) {
-			var converter = new Markdown.Converter();
+			var converter = new Markdown.getSanitizingConverter();
 			var result = converter.makeHtml(_html);
 			$item.html('<div class="jd-md-panel">' + result + '</div>');
 			bindClickCollapseable();
@@ -43,6 +43,8 @@
 				$item.find('.jd-md-collContent').show();
 			}
 			$item.find('.jd-md-panel').css('height', height);
+			var editor = new Markdown.Editor(converter);
+			editor.run();
 		});
 	};
 })(jQuery);

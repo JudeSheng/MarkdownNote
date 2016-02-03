@@ -5,10 +5,17 @@
 - [Download](http://www.bootcdn.cn/pagedown/)
 
 ### Markdown.Converter.js
-- converter demo  
-	- var converter = new Markdown.Converter();
-	- var result = converter.makeHtml(html);
-- editor demo
+ 
+	var converter = new Markdown.Converter();
+	var result = converter.makeHtml(html);
+	
+### Markdown.Sanitizer.js
+	过滤html标签白名单之外的标签
+
+	var converter = new Markdown.getSanitizingConverter();
+	converter.makeHtml(html)
+	
+Markdown.Editor.js
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

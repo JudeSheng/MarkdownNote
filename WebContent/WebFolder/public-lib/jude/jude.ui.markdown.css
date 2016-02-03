@@ -27,3 +27,5 @@
 .jd-md-panel li li li{ color: #272727; line-height: 20px; }
 .jd-md-panel li > ul { list-style: none; padding-left: 10px; margin-top: 10px; margin-bottom: 10px; }
 .jd-md-panel li > ol { margin-top: 10px; margin-bottom: 10px; }
+
+#wmd-inputssss { width: 80%; height: 40%; position: absolute; left: 10%; top: 50%; margin: 10px; padding: 20px;}

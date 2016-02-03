@@ -29,7 +29,7 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .mdn-head-main .main .mdn-head-menu .menu .children { max-height: 33px; }
 .mdn-head-main .main .mdn-head-menu .menu .children span{ font-size: 14px; font-weight: 400; margin-right: 8px;}
 .mdn-head-main .main .mdn-head-title{ overflow: auto; }
-.mdn-head-main .main .mdn-head-title .title{ width: 60%; min-height: 16px; float:left; font-size: 32px; font-weight: 500; }
+.mdn-head-main .main .mdn-head-title .title{ width: 60%; min-height: 16px; float:left; font-size: 24px; font-weight: 500; }
 .mdn-head-main .mdn-head-date .date{ width: 60%; float:left; color: #707070; font-size: 12px; }
 .mdn-head-main .mdn-head-date{ padding-left: 10px; padding-top: 5px; }
 .mdn-head-option { height:inherit; width: 9%; float: left; }
