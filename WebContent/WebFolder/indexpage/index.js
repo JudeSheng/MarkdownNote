@@ -153,7 +153,7 @@ MDN.index = function() {
 				$('[href="#' + key + '"]').click();
 			} else {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
-				$("#" + key).jdMarkdown(location, self.mdHeight);
+				$("#" + key).jdMarkdown(location, self.mdHeight, key);
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
 			}

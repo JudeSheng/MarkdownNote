@@ -22,7 +22,6 @@ $(function(){
 		$tabs.find('ul.ui-tabs-nav').append(tabTitleHtml);
 		$tabs.append(tabHtml);
 		$tabs.tabs( "refresh" );
-		$tabs.find('ul.ui-tabs-nav').find('[href="#' + id + '"]').click();
 		$('.ui-icon-close').unbind('click').click(function(){
 			$item = $(this);
 			var $tabsTitle = $item.parent();
