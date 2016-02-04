@@ -1,13 +1,13 @@
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
-- 支持换行
-- code
 - Markdown.Editor
-- 双击打开文件夹
-- 双击打开文件
+	- 文件读写
+	- 页面设计
+	- dbclick/keydown
 - Markdown 完整支持
+	- code style
 - Markdown 扩展
-- Expand all
-- Close all tabs
+	- 支持换行
+	- collapsible
 - 使用
 	1. 建立文件
 	1. 整理
@@ -65,7 +65,10 @@
 
 - Add To Do List
 - 常用Notes, notes电击量
-- 标题扩展功能默认设置
+- 设置
+	- Expand all
+	- Close all tabs
+	- 标题扩展功能默认设置
 - help页面
 - LOGO
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
