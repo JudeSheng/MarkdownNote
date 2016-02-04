@@ -8,6 +8,7 @@
 - Markdown 扩展
 	- 支持换行
 	- collapsible
+- 后台监听键盘拷贝事件
 - 使用
 	1. 建立文件
 	1. 整理
@@ -28,6 +29,7 @@
 	- 接入Dropbox
 	- 排序
 	- 全文检索
+	- 选中文字Alt+`自动录入Template功能
 2. 高效，超快速用户体验 ：离线使用，本地缓存，后台同步
 	- 内存数据库？或者用spring catch 自己实现
 3. 简洁并且浪漫的页面风格
@@ -91,4 +93,5 @@
 - doc.farbox.com we.farbox.com todo.farbox.com
 - FarBox Editor
 - Github Pages
+- [java后台监听](http://www.tuicool.com/articles/bymAv2q)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
