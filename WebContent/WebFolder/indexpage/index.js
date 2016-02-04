@@ -6,6 +6,7 @@ MDN.index = function() {
 	this.notesbarId = 'mdn-notesbar';
 	this.$notesbarTab;
 	this.mdHeight = $(window).height() - 210;
+	this.converter = new Markdown.Converter();
 	this.init = function() {
 		self.createMenubar();
 	};
@@ -153,7 +154,21 @@ MDN.index = function() {
 				$('[href="#' + key + '"]').click();
 			} else {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
-				$("#" + key).jdMarkdown(location, self.mdHeight, key);
+				var $content = $("#" + key);
+				//$content.jdMarkdown(location, self.mdHeight, key);
+				location = location.replace(/ /g, '%20');
+				$content.load(location, function(_html) {
+					var result = self.converter.makeHtml(_html);
+					$content.html('<div class="jd-md-panel">' + result + '</div>');
+					$content.find('.jd-md-panel').css('height', self.mdHeight);
+					$('.jd-md-panel').removeAttr('id');
+					$content.find('.jd-md-panel').attr('id', 'wmd-preview');
+					var editor = new Markdown.Editor(self.converter);
+					editor.run();
+					$('#wmd-input').val(_html);
+					$content.find('a').attr('target', '_blank');
+					$('#mdn-notepad').find('ul.ui-tabs-nav').find('[href="#' + key + '"]').click();
+				});
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
 			}
