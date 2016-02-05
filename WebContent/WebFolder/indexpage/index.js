@@ -9,7 +9,8 @@ MDN.index = function() {
 	this.converter = new Markdown.Converter();
 	this.editor = new Markdown.Editor(self.converter);
 	this.currentTabs = null;
-	this.keydownCodes = [];
+	this.isAltDown = false;
+	this.isPointDown = false;
 	this.init = function() {
 		self.createMenubar();
 		self.doEditor();
@@ -216,18 +217,20 @@ MDN.index = function() {
 		self.editor.run();
 		$(document).keydown(function(event){
 			var key = event.keyCode;
-			if(self.keydownCodes.indexOf(key) == -1) {
-				self.keydownCodes.push(key);
+			if( key == 18) {
+				self.isAltDown = true;
+			}
+			if( key == 192) {
+				self.isPointDown = true;
 			}
 		});
 		$(document).keyup(function(event){
 			var key = event.keyCode;
-			if(key == 192 && self.keydownCodes.toString() == '18,192' ){
+			if(self.isPointDown && self.isAltDown){
 				if($('.wmd-panel').css('display') == 'none') {
 					if(self.currentTabs != self.notesbarId && self.currentTabs != null) {
 						var location = $('#' + self.notesbarId).find('[key="'+ self.currentTabs +'"]').attr('name');
 						$.get(location, null, function(_html) {
-							alert(_html);
 							$('#wmd-input').val(_html);
 							$('.wmd-panel').show();
 							self.editor.refreshPreview();
@@ -236,6 +239,12 @@ MDN.index = function() {
 				} else {
 					$('.wmd-panel').hide();
 				}
+			}
+			if(key == 18) {
+				self.isAltDown = false;
+			}
+			if(key == 192) {
+				self.isPointDown = false;
 			}
 		});
 	};
