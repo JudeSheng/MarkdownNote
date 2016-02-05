@@ -1,14 +1,19 @@
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
 - Markdown.Editor
+	- 隐藏buttonbar
+	- 完善自定义collapsible
 	- 文件读写
-	- 页面设计
-	- dbclick/keydown
 - Markdown 完整支持
-	- code style
+	- code style重写
 - Markdown 扩展
+	- 源码解读
+		- pagedown笔记
+		- 证则笔记
+		- js笔记
 	- 支持换行
 	- collapsible
 - 后台监听键盘拷贝事件
+	- [java后台监听](http://www.tuicool.com/articles/bymAv2q)
 - 使用
 	1. 建立文件
 	1. 整理
@@ -93,5 +98,4 @@
 - doc.farbox.com we.farbox.com todo.farbox.com
 - FarBox Editor
 - Github Pages
-- [java后台监听](http://www.tuicool.com/articles/bymAv2q)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

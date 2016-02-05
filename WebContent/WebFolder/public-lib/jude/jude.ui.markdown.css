@@ -27,3 +27,10 @@
 .jd-md-panel li li li{ color: #272727; line-height: 20px; }
 .jd-md-panel li > ul { list-style: none; padding-left: 10px; margin-top: 10px; margin-bottom: 10px; }
 .jd-md-panel li > ol { margin-top: 10px; margin-bottom: 10px; }
+
+.wmd-panel { display: none; position: absolute; top: 0px; left: 0px; z-index: 99; height: 100%; width: 100%; background: #FFF; }
+.wmd-editor { height: 98%; width: 50%; float: left;}
+#wmd-input { height: 94%; width: 98%; margin: 2px; padding: 8px; }
+.wmd-view { height: 98%; width: 50%; float: left; }
+#wmd-preview { height: 94%; width: 98%; border: 1px solid #CCC; overflow: auto; margin: 2px 2px 2px 0;  padding: 8px; }
+.wmd-bar { height: 50px; background: #FFF; }

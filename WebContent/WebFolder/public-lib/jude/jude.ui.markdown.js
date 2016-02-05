@@ -1,5 +1,5 @@
 (function($){
-	$.fn.jdMarkdown = function(filePath, height, id) {
+	$.fn.jdMarkdown = function(filePath, height, id, converter) {
 		var $item = this;
 		filePath = filePath.replace(/ /g, '%20');
 		var imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
@@ -26,7 +26,6 @@
 			});
 		};
 		$item.load(filePath, function(_html) {
-			var converter = new Markdown.Converter();
 			var result = converter.makeHtml(_html);
 			$item.html('<div class="jd-md-panel">' + result + '</div>');
 			$('#mdn-notepad').find('ul.ui-tabs-nav').find('[href="#' + id + '"]').click();
@@ -45,8 +44,6 @@
 				$item.find('.jd-md-panel').find('.jd-md-rightimg').addClass('jd-md-up');
 			}
 			$item.find('.jd-md-panel').css('height', height);
-			//var editor = new Markdown.Editor(converter);
-			//editor.run();
 			bindClickCollapseable();
 			$item.find('a').attr('target', '_blank');
 		});

@@ -7,8 +7,12 @@ MDN.index = function() {
 	this.$notesbarTab;
 	this.mdHeight = $(window).height() - 210;
 	this.converter = new Markdown.Converter();
+	this.editor = new Markdown.Editor(self.converter);
+	this.currentTabs = null;
+	this.keydownCodes = [];
 	this.init = function() {
 		self.createMenubar();
+		self.doEditor();
 	};
 	this.createMenubar = function() {
 		$.ajax({ 
@@ -30,7 +34,7 @@ MDN.index = function() {
 	};
 	this.initNotesbarTabs = function(menubar) {
 		var menuName = menubar.menu.childMenuList[0].menuName;
-		$('#mdn-notepad').jdTabs(menuName, self.notesbarId, false);
+		self.$tabs = $('#mdn-notepad').jdTabs(menuName, self.notesbarId, false);
 		self.$notesbarTab = $('#mdn-notepad').find('[href="#' + self.notesbarId + '"]');
 		self.$notesbarTab.parent().addClass('mdn-notesbar-tab');
 		self.bindClickMenu();
@@ -155,20 +159,22 @@ MDN.index = function() {
 			} else {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
 				var $content = $("#" + key);
-				//$content.jdMarkdown(location, self.mdHeight, key);
-				location = location.replace(/ /g, '%20');
+				$content.jdMarkdown(location, self.mdHeight, key, self.converter);
+				
+				/*location = location.replace(/ /g, '%20');
 				$content.load(location, function(_html) {
 					var result = self.converter.makeHtml(_html);
 					$content.html('<div class="jd-md-panel">' + result + '</div>');
 					$content.find('.jd-md-panel').css('height', self.mdHeight);
 					$('.jd-md-panel').removeAttr('id');
 					$content.find('.jd-md-panel').attr('id', 'wmd-preview');
-					var editor = new Markdown.Editor(self.converter);
+					
 					editor.run();
 					$('#wmd-input').val(_html);
 					$content.find('a').attr('target', '_blank');
 					$('#mdn-notepad').find('ul.ui-tabs-nav').find('[href="#' + key + '"]').click();
-				});
+				});*/
+				
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
 			}
@@ -202,6 +208,34 @@ MDN.index = function() {
 			if(key != self.notesbarId) {
 				$('.mdn-head-title .title').html($item.html());
 				self.createDateHtml(key);
+			}
+			self.currentTabs = key;
+		});
+	};
+	this.doEditor = function() {
+		self.editor.run();
+		$(document).keydown(function(event){
+			var key = event.keyCode;
+			if(self.keydownCodes.indexOf(key) == -1) {
+				self.keydownCodes.push(key);
+			}
+		});
+		$(document).keyup(function(event){
+			var key = event.keyCode;
+			if(key == 192 && self.keydownCodes.toString() == '18,192' ){
+				if($('.wmd-panel').css('display') == 'none') {
+					if(self.currentTabs != self.notesbarId && self.currentTabs != null) {
+						var location = $('#' + self.notesbarId).find('[key="'+ self.currentTabs +'"]').attr('name');
+						$.get(location, null, function(_html) {
+							alert(_html);
+							$('#wmd-input').val(_html);
+							$('.wmd-panel').show();
+							self.editor.refreshPreview();
+						}, 'text');
+					}
+				} else {
+					$('.wmd-panel').hide();
+				}
 			}
 		});
 	};
