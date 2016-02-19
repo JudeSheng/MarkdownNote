@@ -1,4 +1,4 @@
-.jd-md-panel { font-size: 13px; line-height: 21px; overflow: auto; margin: 0 0 16px 20px; padding-top: 20px; }
+.jd-md-panel { font-size: 13px; line-height: 21px; overflow: auto; margin: 0 0 16px 20px; padding-top: 20px; font-family: Verdana,Arial,sans-serif; }
 /**** Collapseable Style ***/
 .jd-md-panel .jd-md-collapseable{ border-bottom: 1px solid #CCC;  padding-bottom: 10px; margin-bottom: 10px; }
 .jd-md-panel .jd-md-collContent { padding-left: 24px; padding-top: 10px;}
@@ -12,7 +12,6 @@
 /**** Other Style ***/
 .jd-md-panel blockquote p { font-size: 13px;color: #373D49; font-style: italic; margin-top: 0px; margin-bottom: 5px; padding: 4px 4px 4px 16px; border-left: 2px solid #A0AABF; line-height: 28px; }
 .jd-md-panel h1,h2,h3,h4,h5,h6 { 
-	font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-feature-settings: "dlig", "liga", "lnum", "kern";
 	font-style: normal;
 	font-weight: 600;
@@ -29,8 +28,8 @@
 .jd-md-panel li > ol { margin-top: 10px; margin-bottom: 10px; }
 
 .wmd-panel { display: none; position: absolute; top: 0px; left: 0px; z-index: 99; height: 100%; width: 100%; background: #FFF; }
-.wmd-editor { height: 98%; width: 50%; float: left;}
-#wmd-input { height: 94%; width: 98%; margin: 2px; padding: 8px; }
-.wmd-view { height: 98%; width: 50%; float: left; }
+.wmd-editor { height: 98%; width: 50%; float: left; }
+#wmd-input { height: 94%; width: 98%; margin: 2px; padding: 8px; line-height: 20px; }
+.wmd-view { height: 98% !important; width: 50%; float: left; }
 #wmd-preview { height: 94%; width: 98%; border: 1px solid #CCC; overflow: auto; margin: 2px 2px 2px 0;  padding: 8px; }
-.wmd-bar { height: 50px; background: #FFF; }
+.wmd-bar { height: 50px; background: #FFF; display:none; }

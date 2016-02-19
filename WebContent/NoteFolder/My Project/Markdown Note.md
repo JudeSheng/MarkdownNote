@@ -1,7 +1,5 @@
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
 - Markdown.Editor
-	- 隐藏buttonbar
-	- 完善自定义collapsible
 	- 文件读写
 - Markdown 完整支持
 	- code style重写
@@ -13,6 +11,7 @@
 	- 支持换行
 	- collapsible
 - 后台监听键盘拷贝事件
+	- Ctrl + C, Ctrl + Space
 	- [java后台监听](http://www.tuicool.com/articles/bymAv2q)
 - 使用
 	1. 建立文件

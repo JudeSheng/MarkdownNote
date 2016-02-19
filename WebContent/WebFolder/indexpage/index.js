@@ -159,6 +159,7 @@ MDN.index = function() {
 				$('[href="#' + key + '"]').click();
 			} else {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
+				$('[href="#' + key + '"]').attr('key',location);
 				var $content = $("#" + key);
 				$content.jdMarkdown(location, self.mdHeight, key, self.converter);
 				
@@ -229,7 +230,7 @@ MDN.index = function() {
 			if(self.isPointDown && self.isAltDown){
 				if($('.wmd-panel').css('display') == 'none') {
 					if(self.currentTabs != self.notesbarId && self.currentTabs != null) {
-						var location = $('#' + self.notesbarId).find('[key="'+ self.currentTabs +'"]').attr('name');
+						var location = $('#mdn-notepad').find('[href="#' + self.currentTabs + '"]').attr('key');
 						$.get(location, null, function(_html) {
 							$('#wmd-input').val(_html);
 							$('.wmd-panel').show();
