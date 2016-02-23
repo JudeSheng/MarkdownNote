@@ -1,5 +1,5 @@
 (function($){
-	$.fn.jdMarkdown = function(filePath, height, id, converter) {
+	$.fn.jdMarkdown = function(filePath, height, id, converter, _callback) {
 		var $item = this;
 		filePath = filePath.replace(/ /g, '%20');
 		var imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
@@ -46,6 +46,9 @@
 			$item.find('.jd-md-panel').css('height', height);
 			bindClickCollapseable();
 			$item.find('a').attr('target', '_blank');
+			if(_callback) {
+				_callback();
+			}
 		});
 	};
 })(jQuery);

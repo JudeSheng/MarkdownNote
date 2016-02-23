@@ -42,8 +42,25 @@ public class FileUtil {
 		return time;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(getCreationTime(new File("F:\\workspace\\MarkdownNote\\src\\com\\jude\\utils\\file\\FileUtil.java")));
+	public static void createFile(String filePath) {
+		File file = new File(filePath);
+		File parent = file.getParentFile();
+		if(!parent.isDirectory()) {
+			parent.mkdirs();
+		} 
+		if(!file.isFile() || !file.isDirectory()) {
+			String name = file.getName();
+			if(name.indexOf(".") > -1) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				file.mkdir();
+			}
+		}
+		
 	}
 	
 	public static FolderPojo getAll(File file) {

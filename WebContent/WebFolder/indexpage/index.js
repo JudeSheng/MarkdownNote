@@ -14,6 +14,7 @@ MDN.index = function() {
 	this.init = function() {
 		self.createMenubar();
 		self.doEditor();
+		$.ajaxSetup({cache:false});
 	};
 	this.createMenubar = function() {
 		$.ajax({ 
@@ -163,20 +164,6 @@ MDN.index = function() {
 				var $content = $("#" + key);
 				$content.jdMarkdown(location, self.mdHeight, key, self.converter);
 				
-				/*location = location.replace(/ /g, '%20');
-				$content.load(location, function(_html) {
-					var result = self.converter.makeHtml(_html);
-					$content.html('<div class="jd-md-panel">' + result + '</div>');
-					$content.find('.jd-md-panel').css('height', self.mdHeight);
-					$('.jd-md-panel').removeAttr('id');
-					$content.find('.jd-md-panel').attr('id', 'wmd-preview');
-					
-					editor.run();
-					$('#wmd-input').val(_html);
-					$content.find('a').attr('target', '_blank');
-					$('#mdn-notepad').find('ul.ui-tabs-nav').find('[href="#' + key + '"]').click();
-				});*/
-				
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
 			}
@@ -213,6 +200,10 @@ MDN.index = function() {
 			}
 			self.currentTabs = key;
 		});
+		$('.ui-icon-close').live('click', function(){
+			var key = $('#mdn-notepad').find('[aria-selected="true"]').find('a').attr('href').substring(1);
+			self.currentTabs = key;
+		});
 	};
 	this.doEditor = function() {
 		self.editor.run();
@@ -227,10 +218,10 @@ MDN.index = function() {
 		});
 		$(document).keyup(function(event){
 			var key = event.keyCode;
+			var location = $('#mdn-notepad').find('[href="#' + self.currentTabs + '"]').attr('key');
 			if(self.isPointDown && self.isAltDown){
 				if($('.wmd-panel').css('display') == 'none') {
 					if(self.currentTabs != self.notesbarId && self.currentTabs != null) {
-						var location = $('#mdn-notepad').find('[href="#' + self.currentTabs + '"]').attr('key');
 						$.get(location, null, function(_html) {
 							$('#wmd-input').val(_html);
 							$('.wmd-panel').show();
@@ -238,7 +229,27 @@ MDN.index = function() {
 						}, 'text');
 					}
 				} else {
+					var _html = $('#wmd-input').val();
+					var result = self.converter.makeHtml(_html);
+					$('#' + self.currentTabs).find('.jd-md-panel').html(result);
 					$('.wmd-panel').hide();
+					$.ajax({ 
+						type : 'POST',
+						url: MDN.host + '/midifyNote.action',
+						dataType : 'json',
+						data: {
+							filePath: decodeURI(location),
+							content: _html
+						},
+						success : function( jsonObject ) { 
+							
+						},
+						error : function( error ) {
+							alert(error);
+						},
+						complete: function() { 
+						}
+					});
 				}
 			}
 			if(key == 18) {

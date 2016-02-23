@@ -1,6 +1,4 @@
-package com.jude.mdn.menu.action;
-
-import java.io.File;
+package com.jude.mdn.note.action;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,46 +7,47 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.jude.mdn.menu.pojo.MenubarDTO;
-import com.jude.mdn.menu.service.MenubarService;
+import com.jude.utils.file.IOUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("json-default")
 @Controller
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Results( { @Result(name = ActionSupport.SUCCESS, type = "json") })
-public class FetchMenuListAction extends ActionSupport implements ServletRequestAware {
+public class MidifyNoteAction extends ActionSupport implements ServletRequestAware {
 
-	private static final long serialVersionUID = 8098818299436930797L;
+	private static final long serialVersionUID = -2077978130088920759L;
 	
 	private HttpServletRequest request;
 	
-	@Autowired
-	private MenubarService service;
+	private String filePath;
 	
-	private MenubarDTO menubar;
+	private String content;
 
 	@Override
-	@Action("fetchMenuList")
+	@Action("midifyNote")
 	public String execute() throws Exception {
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		File file = new File(rootPath + "//NoteFolder");
-		menubar = service.getMenubar(file);
+		IOUtil.writeFile(rootPath + filePath, content);
+		IOUtil.writeFile("C:/!!! - Jude Sheng/Git/MarkdownNote/WebContent/" + filePath, content);
 		return SUCCESS;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
 		this.request = request;
 	}
-
-	public MenubarDTO getMenubar() {
-		return menubar;
-	}
-
+	
 }

@@ -1,6 +1,8 @@
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
 - Markdown.Editor
-	- 文件读写
+    - Tab键支持
+    - Menubar增删
+    - 查询
 - Markdown 完整支持
 	- code style重写
 - Markdown 扩展
@@ -35,6 +37,9 @@
 	- 全文检索
 	- 选中文字Alt+`自动录入Template功能
 2. 高效，超快速用户体验 ：离线使用，本地缓存，后台同步
+	- 本地文件缓存笔记内容
+	- JS缓存修改内容
+	- 后台同步
 	- 内存数据库？或者用spring catch 自己实现
 3. 简洁并且浪漫的页面风格
 	- 两种页面风格，酷绚和简洁
