@@ -2,16 +2,16 @@
 - Markdown.Editor
     - Tab键支持
     - Menubar增删
-    - 查询
+    - notebar中文
 - Markdown 完整支持
 	- code style重写
 - Markdown 扩展
-	- 源码解读
-		- pagedown笔记
-		- 证则笔记
-		- js笔记
-	- 支持换行
-	- collapsible
+    - 源码解读
+    - pagedown笔记
+    - 证则笔记
+    - js笔记
+        - 支持换行
+        - collapsible
 - 后台监听键盘拷贝事件
 	- Ctrl + C, Ctrl + Space
 	- [java后台监听](http://www.tuicool.com/articles/bymAv2q)
@@ -33,6 +33,7 @@
 - 基本要求
 1. 方便使用，操作简单 ： 跨平台支持
 	- 接入Dropbox
+       - 用Git控制版本
 	- 排序
 	- 全文检索
 	- 选中文字Alt+`自动录入Template功能

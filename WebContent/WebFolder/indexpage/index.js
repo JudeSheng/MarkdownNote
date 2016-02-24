@@ -11,6 +11,9 @@ MDN.index = function() {
 	this.currentTabs = null;
 	this.isAltDown = false;
 	this.isPointDown = false;
+	this.isShiftDown = false;
+	this.isCtrlDown = false;
+	this.isVDown = false;
 	this.init = function() {
 		self.createMenubar();
 		self.doEditor();
@@ -207,17 +210,76 @@ MDN.index = function() {
 	};
 	this.doEditor = function() {
 		self.editor.run();
+		$('textarea').keyup(function(event){
+			var keyCode = event.keyCode;
+			if(self.isCtrlDown && self.isVDown) {//Ctrl+V
+				$('#wmd-input').val($('#wmd-input').val().replace(/\t/g,'    '));
+			}
+			if(keyCode == 16) {
+				self.isShiftDown = false;
+			} else if(keyCode == 17) {
+				self.isCtrlDown = false;
+			} else if(keyCode == 86) {
+				self.isVDown = false;
+			}
+			
+		});
+		$('textarea').keydown(function(event){
+			var $textarea = $(this);
+			var keyCode = event.keyCode;
+			if(keyCode == 16) {
+				self.isShiftDown = true;
+			} else if(keyCode == 17) {
+				self.isCtrlDown = true;
+			} else if(keyCode == 86) {
+				self.isVDown = true;
+			}
+			if(keyCode == 9) {//Tab
+				event.preventDefault();
+				var startIndex = this.selectionStart;
+				var endIndex = this.selectionEnd;
+				var text = $textarea.val();
+				var textSelection = text.substring(startIndex, endIndex);
+				var tab = '    ';
+				var isSingleLine = textSelection.indexOf('\n') == -1;
+				if(!self.isShiftDown) {
+					if(isSingleLine) {
+						text = text.substr(0, startIndex) + tab + text.substr(endIndex);
+						$textarea.val(text);
+						this.selectionStart = startIndex + tab.length;
+						this.selectionEnd = startIndex + tab.length;
+					} else {
+						textSelection = tab + textSelection.replace(/\n/g,'\n' + tab);
+						text = text.substr(0, startIndex) + textSelection + text.substr(endIndex);
+						$textarea.val(text);
+						this.selectionStart = startIndex + tab.length;
+						this.selectionEnd = startIndex + textSelection.length;
+					}
+					
+				} else {
+					if(isSingleLine) {
+					} else {
+						textSelection = textSelection.replace(/\n    /g,'\n');
+						text = text.substr(0, startIndex - tab.length) + textSelection + text.substr(endIndex);
+						$textarea.val(text);
+						this.selectionStart = startIndex - tab.length;
+						this.selectionEnd = startIndex - tab.length + textSelection.length;
+					}
+					
+				}
+			}
+		});
 		$(document).keydown(function(event){
-			var key = event.keyCode;
-			if( key == 18) {
+			var keyCode = event.keyCode;
+			if( keyCode == 18) {
 				self.isAltDown = true;
 			}
-			if( key == 192) {
+			if( keyCode == 192) {
 				self.isPointDown = true;
 			}
 		});
 		$(document).keyup(function(event){
-			var key = event.keyCode;
+			var keyCode = event.keyCode;
 			var location = $('#mdn-notepad').find('[href="#' + self.currentTabs + '"]').attr('key');
 			if(self.isPointDown && self.isAltDown){
 				if($('.wmd-panel').css('display') == 'none') {
@@ -230,9 +292,6 @@ MDN.index = function() {
 					}
 				} else {
 					var _html = $('#wmd-input').val();
-					var result = self.converter.makeHtml(_html);
-					$('#' + self.currentTabs).find('.jd-md-panel').html(result);
-					$('.wmd-panel').hide();
 					$.ajax({ 
 						type : 'POST',
 						url: MDN.host + '/midifyNote.action',
@@ -242,7 +301,9 @@ MDN.index = function() {
 							content: _html
 						},
 						success : function( jsonObject ) { 
-							
+							var result = self.converter.makeHtml(_html);
+							$('#' + self.currentTabs).find('.jd-md-panel').html(result);
+							$('.wmd-panel').hide();
 						},
 						error : function( error ) {
 							alert(error);
@@ -252,10 +313,9 @@ MDN.index = function() {
 					});
 				}
 			}
-			if(key == 18) {
+			if(keyCode == 18) {
 				self.isAltDown = false;
-			}
-			if(key == 192) {
+			} else if(keyCode == 192) {
 				self.isPointDown = false;
 			}
 		});
