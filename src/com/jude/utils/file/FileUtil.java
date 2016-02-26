@@ -17,6 +17,8 @@ import com.jude.utils.DateUtil;
 
 public class FileUtil {
 	
+	public static final String ROOT_PATH = "C:/!!! - Jude Sheng/Git/MarkdownNote/WebContent/";
+	
 	public static String getFileOwner(File file) {
 		Path path = Paths.get(file.getPath());
         FileOwnerAttributeView ownerAttributeView = Files.getFileAttributeView(path, FileOwnerAttributeView.class);
@@ -60,7 +62,6 @@ public class FileUtil {
 				file.mkdir();
 			}
 		}
-		
 	}
 	
 	public static FolderPojo getAll(File file) {

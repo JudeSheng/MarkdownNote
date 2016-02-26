@@ -1,2 +1,11 @@
-#jquery判断是否存在元素
+### jquery判断是否存在元素
 if ( $("#someID").length > 0 ) {}
+
+### jquery事件
+- contextmenu : 浏览器右击菜单
+- click, dbclick
+- mousedown, mouseup, mouseover, mouseout, mouseenter, mouseleave, mousemove
+- keydown/keyup
+
+### jquery offset
+- $('#mdn-dialog').offset({top:100,left:0});

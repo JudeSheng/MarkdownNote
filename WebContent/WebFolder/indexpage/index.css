@@ -33,3 +33,22 @@ body { color: #373D49; font-family: Georgia,Cambria,serif; }
 .mdn-head-main .mdn-head-date .date{ width: 60%; float:left; color: #707070; font-size: 12px; }
 .mdn-head-main .mdn-head-date{ padding-left: 10px; padding-top: 5px; }
 .mdn-head-option { height:inherit; width: 9%; float: left; }
+
+.mdn-dialog { border: 1px solid #AAA; display:none; position: absolute; z-index: 999; }
+.mdn-dialog ul{ list-style-type: none; margin:0; padding:6px 0; background: #FFF; }
+.mdn-dialog ul li{ color: #3572B0; font-size: 14px; padding: 6px 20px; border-top: 1px solid #BBB; }
+.mdn-dialog ul li:hover{ background: #DDD; cursor: pointer; }
+
+.mdn-dialog-editor { border: 1px solid #AAA; border-radius: 4px; position: absolute; z-index: 999; top: 30%; left: 36%; padding: 10px 10px; display: none; background: #F6F6F6;}
+.mdn-dialog-editor .editor-header { border-bottom: 1px solid #AAA; margin-bottom: 10px; padding-bottom: 6px; }
+.mdn-dialog-editor .editor-body {  padding: 10px 40px; margin: 10px 0 16px 0;}
+.mdn-dialog-editor .editor-body .box {  margin-top: 20px; font-weight: bolder; }
+.mdn-dialog-editor .editor-body .box span{  margin-right: 10px; }
+.mdn-dialog-editor .editor-body input{  width: 80%; min-width: 300px; padding: 4px 8px;}
+.mdn-dialog-editor .editor-body .parrent { margin-top: 24px; }
+.mdn-dialog-editor .editor-footer { text-align: right; }
+#mdn-dialog-editor-parrent {display: inline;}
+#mdn-dialog-editor-parrent span { color: #3572B0; }
+#mdn-dialog-editor-title { color: #3572B0; }
+#mdn-dialog-editor-title2 { font-weight: bold; }
+

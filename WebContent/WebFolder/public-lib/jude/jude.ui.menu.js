@@ -40,7 +40,7 @@
 						} else if($parentMenu.parent().parent().attr('class') == 'jd-menu-tree') {
 							$parentMenu = $parentMenu.prev();
 							parentText = $parentMenu.html().split(' / ')[0];
-							$parentMenu.html(parentText + ' / ' + '<span class="jd-menu-tree-click">' + $item.html() + '</span>');
+							$parentMenu.html('<span>'+parentText+'</span>' + ' / ' + '<span class="jd-menu-tree-click">' + $item.html() + '</span>');
 							break;
 						}
 					}

@@ -1,4 +1,4 @@
-package com.jude.mdn.note.action;
+package com.jude.mdn.menu.action;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,43 +12,36 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.jude.utils.file.FileUtil;
-import com.jude.utils.file.IOUtil;
 import com.opensymphony.xwork2.ActionSupport;
 
 @ParentPackage("json-default")
 @Controller
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 @Results( { @Result(name = ActionSupport.SUCCESS, type = "json") })
-public class MidifyNoteAction extends ActionSupport implements ServletRequestAware {
+public class AddMenuAction extends ActionSupport implements ServletRequestAware {
 
-	private static final long serialVersionUID = -2077978130088920759L;
+	private static final long serialVersionUID = -6387305211921465430L;
 	
 	private HttpServletRequest request;
 	
 	private String filePath;
-	
-	private String content;
 
 	@Override
-	@Action("midifyNote")
+	@Action("addMenu")
 	public String execute() throws Exception {
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		IOUtil.writeFile(rootPath + filePath, content);
-		IOUtil.writeFile(FileUtil.ROOT_PATH + filePath, content);
+		FileUtil.createFile(rootPath + filePath);
+		FileUtil.createFile(FileUtil.ROOT_PATH + filePath);
 		return SUCCESS;
+	}
+	
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	@Override
-	public void setServletRequest(HttpServletRequest request) {
-		this.request = request;
 	}
 	
 }

@@ -14,6 +14,13 @@ MDN.index = function() {
 	this.isShiftDown = false;
 	this.isCtrlDown = false;
 	this.isVDown = false;
+	this.isMenuOver = false;
+	this.isNoteOver = false;
+	this.isDialogOver = false;
+	this.pageX = 0;
+	this.pageY = 0;
+	this.imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
+	this.imgExpand = 'WebFolder/public-lib/jude/images/expand.gif';
 	this.init = function() {
 		self.createMenubar();
 		self.doEditor();
@@ -29,6 +36,9 @@ MDN.index = function() {
 				$('#mdn-menubar').jdMenuTree(menubar.menu.childMenuList);
 				self.notesbarObject = menubar.notesMap;
 				self.initNotesbarTabs(menubar);
+				self.doEditorMenu();
+				self.doEditorNote();
+				self.bindClickEditor();
 			},
 			error : function( error ) {
 				alert(error);
@@ -56,23 +66,22 @@ MDN.index = function() {
 				var $child = $(this);
 				allKeys.push($child.attr('key'));
 			});
-			var childKeys = [];
-			$item.next().children('li').each(function(){
-				var $child = $(this);
-				childKeys.push($child.attr('key'));
-			});
-			self.makeHeadMenuHtml(key, childKeys);
+			self.makeHeadMenuHtml($item);
 			self.bindClickHeadMenu();
 			self.makeNotebarHtml(allKeys);
 			self.$notesbarTab.html($item.html());
 			self.$notesbarTab.click();
 			
-			//$('#mdn-notepad').find('.ui-icon-close').click();
-			//$('.mdn-notesbar-current').find('li span').click();
 			self.$notesbarTab.click();
 		});
 	};
-	this.makeHeadMenuHtml = function(currentKey, childKeys){
+	this.makeHeadMenuHtml = function($item, isRightClick){
+		var currentKey = $item.attr('key');
+		var childKeys = [];
+		$item.next().children('li').each(function(){
+			var $child = $(this);
+			childKeys.push($child.attr('key'));
+		});
 		var htmlCurrent = '';
 		var keys = currentKey.split('.');
 		for (var i = 0; i < keys.length; i++) {
@@ -83,17 +92,25 @@ MDN.index = function() {
 					key += '.';
 				}
 			}
-			htmlCurrent += '<span key="' + key + '">' + keys[i] + '</span>';
+			var title = $('.jd-menu-tree').find('[key="'+key+'"]').html();
+			if(title.indexOf('<span>') > -1) {
+				title = $('.jd-menu-tree').find('[key="'+key+'"]').find('span:first').html();
+			}
+			htmlCurrent += '<span key="' + key + '">' + title + '</span>';
 			if(i != keys.length-1) {
 				htmlCurrent += ' / ';
-			}
+			} 
 		}
+		if(isRightClick) {
+			return htmlCurrent;
+		}
+		$('#mdn-dialog-editor-parrent').html(htmlCurrent);
 		$('.mdn-head-menu .menu .current').html(htmlCurrent);
 		var htmlChildren = '';
 		for (var i = 0; i < childKeys.length; i++) {
 			var key = childKeys[i];
-			var index = key.lastIndexOf('.');
-			htmlChildren += '<span key="' + key + '">' + key.substring(index+1) + '</span>';
+			var title = $('.jd-menu-tree').find('[key="'+ key +'"]').html();
+			htmlChildren += '<span key="' + key + '">' + title + '</span>';
 		}
 		$('.mdn-head-menu .menu .children').html(htmlChildren);
 	};
@@ -124,10 +141,19 @@ MDN.index = function() {
 					var keyArray = keys[i].split('.');
 					html += '<div class="mdn-notesbar-titles">';
 					for (var j = 0; j < keyArray.length; j++) {
+						var keyTitle = '';
+						for (var k = 0; k < j + 1; k++) {
+							keyTitle += keyArray[k] + '.';
+						}
+						keyTitle = keyTitle.substr(0, keyTitle.length - 1);
+						var title = $('.jd-menu-tree').find('[key="'+keyTitle+'"]').html();
+						if(title.indexOf('<span>') > -1) {
+							title = $('.jd-menu-tree').find('[key="'+keyTitle+'"]').find('span:first').html();
+						}
 						if(j != keyArray.length-1) {
-							html += '<span>' + keyArray[j] + '</span><span> / </span>';
+							html += '<span>' + title + '</span><span> / </span>';
 						} else {
-							html += '<span class="mdn-notesbar-folder-current">' + keyArray[j] + '</span>';
+							html += '<span class="mdn-notesbar-folder-current">' + title + '</span>';
 						}
 					}
 					html += '</div>';
@@ -165,7 +191,30 @@ MDN.index = function() {
 				$('#mdn-notepad').jdTabs_Add(name, key, true);
 				$('[href="#' + key + '"]').attr('key',location);
 				var $content = $("#" + key);
-				$content.jdMarkdown(location, self.mdHeight, key, self.converter);
+				
+				$content.html('<div class="jd-md-panel"></div>');
+				var $item = $content.find('.jd-md-panel');
+				$.get(location.replace(/ /g, '%20'),null, function(_html) {
+					$item.jdMarkdown(_html, self.converter);
+					$('#mdn-notepad').find('ul.ui-tabs-nav').find('[href="#' + key + '"]').click();
+					if($item.height() > self.mdHeight) {
+						$item.find('.jd-md-collContent').hide();
+						$item.find('img').attr('src', self.imgCollapse);
+						$item.find('.jd-md-rightimg').removeClass('jd-md-up');
+						$item.find('.jd-md-rightimg').addClass('jd-md-down');
+						
+						$item.find('.jd-md-collContent:last').show();
+						$item.find('img:last').attr('src', self.imgExpand);
+						$item.find('.jd-md-rightimg:last').removeClass('jd-md-down');
+						$item.find('.jd-md-rightimg:last').addClass('jd-md-up');
+					} else {
+						$item.find('.jd-md-collContent').show();
+						$item.find('img').attr('src', self.imgExpand);
+						$item.find('.jd-md-rightimg').removeClass('jd-md-down');
+						$item.find('.jd-md-rightimg').addClass('jd-md-up');
+					}
+					$item.css('height', self.mdHeight);
+				}, 'text');
 				
 				self.bindClickTabs();
 				$('.mdn-head-title .title').html(name);
@@ -288,6 +337,11 @@ MDN.index = function() {
 							$('#wmd-input').val(_html);
 							$('.wmd-panel').show();
 							self.editor.refreshPreview();
+							$('#wmd-preview').jdMarkdown(_html, self.converter);
+							$('#wmd-preview').find('.jd-md-collContent').show();
+							$('#wmd-preview').find('img').attr('src', self.imgExpand);
+							$('#wmd-preview').find('.jd-md-rightimg').removeClass('jd-md-down');
+							$('#wmd-preview').find('.jd-md-rightimg').addClass('jd-md-up');
 						}, 'text');
 					}
 				} else {
@@ -301,8 +355,12 @@ MDN.index = function() {
 							content: _html
 						},
 						success : function( jsonObject ) { 
-							var result = self.converter.makeHtml(_html);
-							$('#' + self.currentTabs).find('.jd-md-panel').html(result);
+							var $item = $('#' + self.currentTabs).find('.jd-md-panel');
+							$item.jdMarkdown(_html, self.converter);
+							$item.find('.jd-md-collContent').show();
+							$item.find('img').attr('src', self.imgExpand);
+							$item.find('.jd-md-rightimg').removeClass('jd-md-down');
+							$item.find('.jd-md-rightimg').addClass('jd-md-up');
 							$('.wmd-panel').hide();
 						},
 						error : function( error ) {
@@ -319,6 +377,223 @@ MDN.index = function() {
 				self.isPointDown = false;
 			}
 		});
+		this.bindClickEditor = function() {
+			$('#mdn-dialog-add-menu').unbind('click').click(function(){
+				$('#mdn-dialog-editor-value').val('');
+				$('#mdn-dialog-editor-title').html('Add Menu');
+				$('#mdn-dialog-editor-title2').html('Add into : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			$('#mdn-dialog-editor-menu').unbind('click').click(function(){
+				var value = $('#mdn-dialog-editor-parrent span:last').html();
+				$('#mdn-dialog-editor-value').val(value);
+				$('#mdn-dialog-editor-title').html('Editor Menu');
+				$('#mdn-dialog-editor-title2').html('Raname Menu : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			$('#mdn-dialog-delete-menu').unbind('click').click(function(){
+				$('#mdn-dialog-editor').find('.box').hide();
+				$('#mdn-dialog-editor-title').html('Delete Menu');
+				$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Menu : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			
+			
+			$('#mdn-dialog-add-note').unbind('click').click(function(){
+				$('#mdn-dialog-editor-value').val('');
+				$('#mdn-dialog-editor-title').html('Add Note');
+				$('#mdn-dialog-editor-title2').html('Add into : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			$('#mdn-dialog-editor-note').unbind('click').click(function(){
+				var value = $('#mdn-dialog-editor-parrent span:last').html();
+				$('#mdn-dialog-editor-value').val(value);
+				$('#mdn-dialog-editor-title').html('Editor Note');
+				$('#mdn-dialog-editor-title2').html('Raname Note : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			$('#mdn-dialog-delete-note').unbind('click').click(function(){
+				$('#mdn-dialog-editor').find('.box').hide();
+				$('#mdn-dialog-editor-title').html('Delete Note');
+				$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Note : ');
+				$('#mdn-dialog-editor').show();
+				$('#mdn-dialog').hide();
+			});
+			
+			$('#mdn-dialog-editor-cancel').unbind('click').click(function(){
+				$('#mdn-dialog-editor').hide();
+				$('#mdn-dialog-editor').find('.box').show();
+			});
+			$('#mdn-dialog-editor-submit').unbind('click').click(function(){
+				var type = $('#mdn-dialog-editor-title').html();
+				if(type == 'Add Menu') {
+					var value = $('#mdn-dialog-editor-value').val();
+					if(value != '' && value.indexOf(".") == -1) {
+						var filePath = 'NoteFolder';
+						$('#mdn-dialog-editor-parrent').find('span').each(function(){
+							var $item = $(this);
+							filePath += '/' + $item.html();
+						});
+						filePath += '/' + value;
+						self.addMenu(filePath);
+						$('#mdn-dialog-editor').hide();
+						$('#mdn-dialog-editor').find('.box').show();
+					}
+				} else if(type == 'Editor Menu') {
+					
+				} else if(type == 'Delete Menu') {
+					
+				} else if(type == 'Add Note') {
+					
+				} else if(type == 'Editor Note') {
+					
+				} else if(type == 'Delete Note') {
+					
+				}
+				
+				
+			});
+			
+		};
+		this.addMenu = function(filePath) {
+			$.ajax({ 
+				type : 'POST',
+				url: MDN.host + '/addMenu.action',
+				data : {
+					filePath : filePath
+				},
+				dataType : 'json',
+				success : function( jsonObject ) { 
+				},
+				error : function( error ) {
+					alert(error);
+				},
+				complete: function() { 
+				}
+			});
+		};
+		this.doEditorNote = function() {
+			$('#mdn-notesbar').unbind('mousedown').live('mousedown', function(event){
+				var type = event.which;
+				if(type == 3 && !self.isNoteOver) {
+					$('#mdn-dialog li').show();
+					$('#mdn-dialog li').css('border-top','1px solid #BBB');
+					$('#mdn-dialog-add-menu').hide();
+					$('#mdn-dialog-editor-menu').hide();
+					$('#mdn-dialog-delete-menu').hide();
+					$('#mdn-dialog-editor-note').hide();
+					$('#mdn-dialog-delete-note').hide();
+					$('#mdn-dialog-add-note').css('border-top','none');
+					$('#mdn-dialog').show();
+					$('#mdn-dialog').css({ 
+						top:self.pageY, 
+						left:self.pageX 
+					});
+					$('#mdn-dialog-editor').hide();
+					var htmlCurrent = $('.mdn-head-menu .menu .current').html();
+					$('#mdn-dialog-editor-parrent').html(htmlCurrent);
+				}
+			});
+			$('#mdn-notesbar').find('li span').unbind('mousedown').live('mousedown', function(event){//Right Click Note
+				var type = event.which;
+				if(type == 3) {
+					$('#mdn-dialog li').show();
+					$('#mdn-dialog li').css('border-top','1px solid #BBB');
+					$('#mdn-dialog-add-menu').hide();
+					$('#mdn-dialog-editor-menu').hide();
+					$('#mdn-dialog-delete-menu').hide();
+					$('#mdn-dialog-add-note').hide();
+					$('#mdn-dialog-editor-note').css('border-top','none');
+					$('#mdn-dialog').show();
+					$('#mdn-dialog').css({ 
+						top:self.pageY, 
+						left:self.pageX 
+					});
+					$('#mdn-dialog-editor').hide();
+					var $item = $(this);
+					$('#mdn-dialog-editor-parrent').html('<span>'+$item.html()+'</span>');
+					$('#mdn-dialog-editor').hide(); 
+				}
+			});
+		};
+		this.doEditorMenu = function() {
+			$('#mdn-menubar').unbind('mousedown').mousedown(function(event){
+				var type = event.which;
+				if(type == 3 && !self.isMenuOver) {
+					$('#mdn-dialog li').show();
+					$('#mdn-dialog li').css('border-top','1px solid #BBB');
+					$('#mdn-dialog-editor-menu').hide();
+					$('#mdn-dialog-delete-menu').hide();
+					$('#mdn-dialog-add-note').hide();
+					$('#mdn-dialog-editor-note').hide();
+					$('#mdn-dialog-delete-note').hide();
+					$('#mdn-dialog-add-menu').css('border-top','none');
+					$('#mdn-dialog').show();
+					$('#mdn-dialog').css({ 
+						top:self.pageY, 
+						left:self.pageX 
+					});
+					$('#mdn-dialog-editor').hide();
+					$('#mdn-dialog-editor-parrent').html(' Root Folder: <span>NoteFolder</span>');
+				}
+			});
+			$('#mdn-menubar').find('li').unbind('mousedown').mousedown(function(event){//Right Click Menu
+				var type = event.which;
+				if(type == 3) {
+					$('#mdn-dialog li').show();
+					$('#mdn-dialog li').css('border-top','1px solid #BBB');
+					$('#mdn-dialog-editor-note').hide();
+					$('#mdn-dialog-delete-note').hide();
+					$('#mdn-dialog-add-menu').css('border-top','none');
+					$('#mdn-dialog').show();
+					$('#mdn-dialog').css({ 
+						top:self.pageY, 
+						left:self.pageX 
+					});
+					var $item = $(this);
+					var htmlCurrent = self.makeHeadMenuHtml($item, true);
+					$('#mdn-dialog-editor-parrent').html(htmlCurrent);
+					$('#mdn-dialog-editor').hide();
+				}
+			});
+			
+			$('#mdn-menubar').find('li').unbind('mouseover').mouseover(function(){
+				self.isMenuOver = true;
+			});
+			$('#mdn-menubar').find('li').unbind('mouseout').mouseout(function(){
+				self.isMenuOver = false;
+			});
+			$('#mdn-notesbar').find('li span').unbind('mouseover').live('mouseover', function(){
+				self.isNoteOver = true;
+			});
+			$('#mdn-notesbar').find('li span').unbind('mouseout').live('mouseout', function(){
+				self.isNoteOver = false;
+			});
+			$('#mdn-dialog').unbind('mouseover').mouseover(function(){
+				self.isDialogOver = true;
+			});
+			$('#mdn-dialog').unbind('mouseout').mouseout(function(){
+				self.isDialogOver = false;
+			});
+			$(document).mousedown(function(event){
+				var type = event.which;
+				if(type == 1 && !self.isDialogOver) {
+					$('#mdn-dialog').hide();
+				}
+			});
+			$(document).mousemove(function(event){
+				self.pageX = event.pageX;
+				self.pageY = event.pageY;
+			});
+			$('#mdn-menubar, #mdn-dialog, #mdn-notesbar').bind('contextmenu', function(event){
+				event.preventDefault();
+			});
+		};
 	};
 };
 
