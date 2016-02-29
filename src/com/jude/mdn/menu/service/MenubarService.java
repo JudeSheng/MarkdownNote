@@ -30,14 +30,7 @@ public class MenubarService {
 	
 	private MenubarPojo getMenu(FolderPojo folder, Map<String, List<FilePojo>> notesMap, String parentName) {
 		List<FilePojo> files = folder.getChildFiles();
-		String key = "";
-		if(StringUtil.isEmpty(parentName) || "NoteFolder".equals(parentName)) {
-			key = folder.getName();
-		} else {
-			key = parentName + "." +folder.getName();
-		}
-		key = StringUtil.chineseToPYSZM(key);
-		key = key.replaceAll(" ", "");
+		String key = getKey(folder.getName(), parentName);
 		if(!"NoteFolder".equals(key)) {
 			notesMap.put(key, files);
 		}
@@ -52,6 +45,22 @@ public class MenubarService {
 		}
 		menu.setChildMenuList(childMenuList);
 		return menu;
+	}
+	
+	public static String getKey(String name, String parentName) {
+		String key = "";
+		if(StringUtil.isEmpty(parentName) || "NoteFolder".equals(parentName)) {
+			key = name;
+		} else {
+			key = parentName + "." + name;
+		}
+		key = StringUtil.chineseToPYSZM(key);
+		key = key.replaceAll(" ", "");
+		return key;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getKey("",""));
 	}
 	
 }

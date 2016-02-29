@@ -44,7 +44,8 @@ public class FileUtil {
 		return time;
 	}
 	
-	public static void createFile(String filePath) {
+	public static boolean createFile(String filePath) {
+		boolean result = false;
 		File file = new File(filePath);
 		File parent = file.getParentFile();
 		if(!parent.isDirectory()) {
@@ -54,14 +55,50 @@ public class FileUtil {
 			String name = file.getName();
 			if(name.indexOf(".") > -1) {
 				try {
-					file.createNewFile();
+					result = file.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
-				file.mkdir();
+				result = file.mkdir();
+			}
+		} else {
+			result = true;
+		}
+		return result;
+	}
+	
+	public static boolean renameFile(String filePath, String newName) {
+		boolean result = false;
+		try {
+			File file = new File(filePath);
+			if((file.isFile() && newName.indexOf(".") > -1) || (file.isDirectory() && newName.indexOf(".") == -1)) {
+				String name = file.getName();
+				String newPath = filePath.substring(0, filePath.lastIndexOf(name));
+				result = file.renameTo(new File(newPath + newName));
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static boolean deleteFile(File file) {
+		boolean result = true;
+		if(file.isFile()) {
+			if(!file.delete()) {
+				result = false;
+			}
+		} else if(file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				deleteFile(files[i]);
+			}
+			if(!file.delete()) {
+				result = false;
 			}
 		}
+		return result;
 	}
 	
 	public static FolderPojo getAll(File file) {

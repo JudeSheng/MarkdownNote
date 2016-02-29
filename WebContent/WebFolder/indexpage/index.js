@@ -22,11 +22,13 @@ MDN.index = function() {
 	this.imgCollapse = 'WebFolder/public-lib/jude/images/collapse.gif';
 	this.imgExpand = 'WebFolder/public-lib/jude/images/expand.gif';
 	this.init = function() {
+		self.initNotesbarTabs();
 		self.createMenubar();
-		self.doEditor();
+		self.doMDEditor();
 		$.ajaxSetup({cache:false});
 	};
-	this.createMenubar = function() {
+	this.createMenubar = function(key) {
+		var $initMenu = null;
 		$.ajax({ 
 			type : 'POST',
 			url: MDN.host + '/fetchMenuList.action',
@@ -34,8 +36,15 @@ MDN.index = function() {
 			success : function( jsonObject ) { 
 				var menubar = jsonObject.menubar;
 				$('#mdn-menubar').jdMenuTree(menubar.menu.childMenuList);
+				if(typeof(key) == 'undefined') {
+					$initMenu = $('.jd-menu-tree').find('li:eq(0)');
+				} else {
+					$initMenu = $('#mdn-menubar').find('[key="'+key+'"]');
+				}
 				self.notesbarObject = menubar.notesMap;
-				self.initNotesbarTabs(menubar);
+				self.bindClickMenu();
+				self.bindClickNote();
+				$initMenu.click();
 				self.doEditorMenu();
 				self.doEditorNote();
 				self.bindClickEditor();
@@ -47,14 +56,10 @@ MDN.index = function() {
 			}
 		});
 	};
-	this.initNotesbarTabs = function(menubar) {
-		var menuName = menubar.menu.childMenuList[0].menuName;
-		self.$tabs = $('#mdn-notepad').jdTabs(menuName, self.notesbarId, false);
+	this.initNotesbarTabs = function() {
+		self.$tabs = $('#mdn-notepad').jdTabs('Init Tabs', self.notesbarId, false);
 		self.$notesbarTab = $('#mdn-notepad').find('[href="#' + self.notesbarId + '"]');
 		self.$notesbarTab.parent().addClass('mdn-notesbar-tab');
-		self.bindClickMenu();
-		self.bindClickNote();
-		$('.jd-menu-tree').find('li:eq(0)').click();
 	};
 	this.bindClickMenu = function() {
 		$('.jd-menu-tree').find('li').click(function(){
@@ -257,7 +262,7 @@ MDN.index = function() {
 			self.currentTabs = key;
 		});
 	};
-	this.doEditor = function() {
+	this.doMDEditor = function() {
 		self.editor.run();
 		$('textarea').keyup(function(event){
 			var keyCode = event.keyCode;
@@ -377,223 +382,248 @@ MDN.index = function() {
 				self.isPointDown = false;
 			}
 		});
-		this.bindClickEditor = function() {
-			$('#mdn-dialog-add-menu').unbind('click').click(function(){
-				$('#mdn-dialog-editor-value').val('');
-				$('#mdn-dialog-editor-title').html('Add Menu');
-				$('#mdn-dialog-editor-title2').html('Add into : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
+	};
+		
+	this.bindClickEditor = function() {
+		$('#mdn-dialog-add-menu').unbind('click').click(function(){
+			$('#mdn-dialog-editor-value').val('');
+			$('#mdn-dialog-editor-title').html('Add Menu');
+			$('#mdn-dialog-editor-title2').html('Add into : ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		$('#mdn-dialog-editor-menu').unbind('click').click(function(){
+			var value = $('#mdn-dialog-editor-parrent span:last').html();
+			$('#mdn-dialog-editor-value').val(value);
+			$('#mdn-dialog-editor-title').html('Edit Menu');
+			$('#mdn-dialog-editor-title2').html('Raname Menu : ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		$('#mdn-dialog-delete-menu').unbind('click').click(function(){
+			$('#mdn-dialog-editor').find('.box').hide();
+			$('#mdn-dialog-editor-title').html('Delete Menu');
+			$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Menu and all the childen: ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		
+		
+		$('#mdn-dialog-add-note').unbind('click').click(function(){
+			$('#mdn-dialog-editor-value').val('');
+			$('#mdn-dialog-editor-title').html('Add Note');
+			$('#mdn-dialog-editor-title2').html('Add into : ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		$('#mdn-dialog-editor-note').unbind('click').click(function(){
+			var value = $('#mdn-dialog-editor-parrent span:last').html();
+			$('#mdn-dialog-editor-value').val(value);
+			$('#mdn-dialog-editor-title').html('Edit Note');
+			$('#mdn-dialog-editor-title2').html('Raname Note : ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		$('#mdn-dialog-delete-note').unbind('click').click(function(){
+			$('#mdn-dialog-editor').find('.box').hide();
+			$('#mdn-dialog-editor-title').html('Delete Note');
+			$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Note : ');
+			$('#mdn-dialog-editor').show();
+			$('#mdn-dialog').hide();
+		});
+		
+		$('#mdn-dialog-editor-cancel').unbind('click').click(function(){
+			$('#mdn-dialog-editor').hide();
+			$('#mdn-dialog-editor').find('.box').show();
+		});
+		$('#mdn-dialog-editor-submit').unbind('click').click(function(){
+			var type = $('#mdn-dialog-editor-title').html();
+			var value = $('#mdn-dialog-editor-value').val();
+			var keyParent = $('#mdn-dialog-editor-parrent span:last').attr('key');
+			var newName = '';
+			var key = '';
+			var filePath = 'NoteFolder';
+			var _callback = null;
+			$('#mdn-dialog-editor-parrent').find('span').each(function(){
+				var $item = $(this);
+				filePath += '/' + $item.html();
 			});
-			$('#mdn-dialog-editor-menu').unbind('click').click(function(){
-				var value = $('#mdn-dialog-editor-parrent span:last').html();
-				$('#mdn-dialog-editor-value').val(value);
-				$('#mdn-dialog-editor-title').html('Editor Menu');
-				$('#mdn-dialog-editor-title2').html('Raname Menu : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
-			});
-			$('#mdn-dialog-delete-menu').unbind('click').click(function(){
-				$('#mdn-dialog-editor').find('.box').hide();
-				$('#mdn-dialog-editor-title').html('Delete Menu');
-				$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Menu : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
-			});
-			
-			
-			$('#mdn-dialog-add-note').unbind('click').click(function(){
-				$('#mdn-dialog-editor-value').val('');
-				$('#mdn-dialog-editor-title').html('Add Note');
-				$('#mdn-dialog-editor-title2').html('Add into : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
-			});
-			$('#mdn-dialog-editor-note').unbind('click').click(function(){
-				var value = $('#mdn-dialog-editor-parrent span:last').html();
-				$('#mdn-dialog-editor-value').val(value);
-				$('#mdn-dialog-editor-title').html('Editor Note');
-				$('#mdn-dialog-editor-title2').html('Raname Note : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
-			});
-			$('#mdn-dialog-delete-note').unbind('click').click(function(){
-				$('#mdn-dialog-editor').find('.box').hide();
-				$('#mdn-dialog-editor-title').html('Delete Note');
-				$('#mdn-dialog-editor-title2').html('Are you sure you want to Delete Note : ');
-				$('#mdn-dialog-editor').show();
-				$('#mdn-dialog').hide();
-			});
-			
-			$('#mdn-dialog-editor-cancel').unbind('click').click(function(){
-				$('#mdn-dialog-editor').hide();
-				$('#mdn-dialog-editor').find('.box').show();
-			});
-			$('#mdn-dialog-editor-submit').unbind('click').click(function(){
-				var type = $('#mdn-dialog-editor-title').html();
-				if(type == 'Add Menu') {
-					var value = $('#mdn-dialog-editor-value').val();
-					if(value != '' && value.indexOf(".") == -1) {
-						var filePath = 'NoteFolder';
-						$('#mdn-dialog-editor-parrent').find('span').each(function(){
-							var $item = $(this);
-							filePath += '/' + $item.html();
-						});
-						filePath += '/' + value;
-						self.addMenu(filePath);
-						$('#mdn-dialog-editor').hide();
-						$('#mdn-dialog-editor').find('.box').show();
-					}
-				} else if(type == 'Editor Menu') {
-					
-				} else if(type == 'Delete Menu') {
-					
-				} else if(type == 'Add Note') {
-					
-				} else if(type == 'Editor Note') {
-					
-				} else if(type == 'Delete Note') {
-					
+			if(type == "Add Menu") {
+				if(value == '' || value.indexOf(".") > -1) {
+					return;
 				}
+				filePath += '/' + value;
+				key = value;
+				_callback = function() {
+					
+				};
+			} else if(type == "Edit Menu") {
+				var originalName = $('#mdn-dialog-editor-parrent span:last').html();
+				if(value == '' || value.indexOf(".") > -1 || value == originalName) {
+					return;
+				}
+				newName = value;
+			} else if(type == "Delete Menu") {
 				
-				
-			});
-			
-		};
-		this.addMenu = function(filePath) {
+			} else if(type == "Add Note") {
+				if(value == '') {
+					return;
+				}
+				filePath += '/' + value;
+			} else if(type == "Edit Note") {
+				var originalName = $('#mdn-dialog-editor-parrent span:last').html();
+				if(value == '' || value == originalName) {
+					return;
+				}
+				newName = value;
+				filePath = $('#mdn-dialog-editor-parrent').find('span:last').attr('name');
+			} else if(type == "Delete Note") {
+				filePath = $('#mdn-dialog-editor-parrent').find('span:last').attr('name');
+			}
 			$.ajax({ 
 				type : 'POST',
-				url: MDN.host + '/addMenu.action',
+				url: MDN.host + '/menuEditor.action',
 				data : {
-					filePath : filePath
+					filePath : filePath,
+					type : type,
+					newName : newName,
+					key : key
 				},
 				dataType : 'json',
 				success : function( jsonObject ) { 
+					if(jsonObject.result == 'true') {
+						self.createMenubar(keyParent+'.'+jsonObject.key);
+					} else {
+						alert('Error');
+					}
 				},
 				error : function( error ) {
 					alert(error);
 				},
 				complete: function() { 
-				}
-			});
-		};
-		this.doEditorNote = function() {
-			$('#mdn-notesbar').unbind('mousedown').live('mousedown', function(event){
-				var type = event.which;
-				if(type == 3 && !self.isNoteOver) {
-					$('#mdn-dialog li').show();
-					$('#mdn-dialog li').css('border-top','1px solid #BBB');
-					$('#mdn-dialog-add-menu').hide();
-					$('#mdn-dialog-editor-menu').hide();
-					$('#mdn-dialog-delete-menu').hide();
-					$('#mdn-dialog-editor-note').hide();
-					$('#mdn-dialog-delete-note').hide();
-					$('#mdn-dialog-add-note').css('border-top','none');
-					$('#mdn-dialog').show();
-					$('#mdn-dialog').css({ 
-						top:self.pageY, 
-						left:self.pageX 
-					});
 					$('#mdn-dialog-editor').hide();
-					var htmlCurrent = $('.mdn-head-menu .menu .current').html();
-					$('#mdn-dialog-editor-parrent').html(htmlCurrent);
+					$('#mdn-dialog-editor').find('.box').show();
 				}
 			});
-			$('#mdn-notesbar').find('li span').unbind('mousedown').live('mousedown', function(event){//Right Click Note
-				var type = event.which;
-				if(type == 3) {
-					$('#mdn-dialog li').show();
-					$('#mdn-dialog li').css('border-top','1px solid #BBB');
-					$('#mdn-dialog-add-menu').hide();
-					$('#mdn-dialog-editor-menu').hide();
-					$('#mdn-dialog-delete-menu').hide();
-					$('#mdn-dialog-add-note').hide();
-					$('#mdn-dialog-editor-note').css('border-top','none');
-					$('#mdn-dialog').show();
-					$('#mdn-dialog').css({ 
-						top:self.pageY, 
-						left:self.pageX 
-					});
-					$('#mdn-dialog-editor').hide();
-					var $item = $(this);
-					$('#mdn-dialog-editor-parrent').html('<span>'+$item.html()+'</span>');
-					$('#mdn-dialog-editor').hide(); 
-				}
-			});
-		};
-		this.doEditorMenu = function() {
-			$('#mdn-menubar').unbind('mousedown').mousedown(function(event){
-				var type = event.which;
-				if(type == 3 && !self.isMenuOver) {
-					$('#mdn-dialog li').show();
-					$('#mdn-dialog li').css('border-top','1px solid #BBB');
-					$('#mdn-dialog-editor-menu').hide();
-					$('#mdn-dialog-delete-menu').hide();
-					$('#mdn-dialog-add-note').hide();
-					$('#mdn-dialog-editor-note').hide();
-					$('#mdn-dialog-delete-note').hide();
-					$('#mdn-dialog-add-menu').css('border-top','none');
-					$('#mdn-dialog').show();
-					$('#mdn-dialog').css({ 
-						top:self.pageY, 
-						left:self.pageX 
-					});
-					$('#mdn-dialog-editor').hide();
-					$('#mdn-dialog-editor-parrent').html(' Root Folder: <span>NoteFolder</span>');
-				}
-			});
-			$('#mdn-menubar').find('li').unbind('mousedown').mousedown(function(event){//Right Click Menu
-				var type = event.which;
-				if(type == 3) {
-					$('#mdn-dialog li').show();
-					$('#mdn-dialog li').css('border-top','1px solid #BBB');
-					$('#mdn-dialog-editor-note').hide();
-					$('#mdn-dialog-delete-note').hide();
-					$('#mdn-dialog-add-menu').css('border-top','none');
-					$('#mdn-dialog').show();
-					$('#mdn-dialog').css({ 
-						top:self.pageY, 
-						left:self.pageX 
-					});
-					var $item = $(this);
-					var htmlCurrent = self.makeHeadMenuHtml($item, true);
-					$('#mdn-dialog-editor-parrent').html(htmlCurrent);
-					$('#mdn-dialog-editor').hide();
-				}
-			});
-			
-			$('#mdn-menubar').find('li').unbind('mouseover').mouseover(function(){
-				self.isMenuOver = true;
-			});
-			$('#mdn-menubar').find('li').unbind('mouseout').mouseout(function(){
-				self.isMenuOver = false;
-			});
-			$('#mdn-notesbar').find('li span').unbind('mouseover').live('mouseover', function(){
-				self.isNoteOver = true;
-			});
-			$('#mdn-notesbar').find('li span').unbind('mouseout').live('mouseout', function(){
-				self.isNoteOver = false;
-			});
-			$('#mdn-dialog').unbind('mouseover').mouseover(function(){
-				self.isDialogOver = true;
-			});
-			$('#mdn-dialog').unbind('mouseout').mouseout(function(){
-				self.isDialogOver = false;
-			});
-			$(document).mousedown(function(event){
-				var type = event.which;
-				if(type == 1 && !self.isDialogOver) {
-					$('#mdn-dialog').hide();
-				}
-			});
-			$(document).mousemove(function(event){
-				self.pageX = event.pageX;
-				self.pageY = event.pageY;
-			});
-			$('#mdn-menubar, #mdn-dialog, #mdn-notesbar').bind('contextmenu', function(event){
-				event.preventDefault();
-			});
-		};
+		});
+		
+	};
+	this.doEditorNote = function() {
+		$('#mdn-notesbar').unbind('mousedown').live('mousedown', function(event){
+			var type = event.which;
+			if(type == 3 && !self.isNoteOver) {
+				$('#mdn-dialog li').show();
+				$('#mdn-dialog li').css('border-top','1px solid #BBB');
+				$('#mdn-dialog-add-menu').hide();
+				$('#mdn-dialog-editor-menu').hide();
+				$('#mdn-dialog-delete-menu').hide();
+				$('#mdn-dialog-editor-note').hide();
+				$('#mdn-dialog-delete-note').hide();
+				$('#mdn-dialog-add-note').css('border-top','none');
+				$('#mdn-dialog').show();
+				$('#mdn-dialog').css({ 
+					top:self.pageY, 
+					left:self.pageX 
+				});
+				$('#mdn-dialog-editor').hide();
+				var htmlCurrent = $('.mdn-head-menu .menu .current').html();
+				$('#mdn-dialog-editor-parrent').html(htmlCurrent);
+			}
+		});
+		$('#mdn-notesbar').find('li span').unbind('mousedown').live('mousedown', function(event){//Right Click Note
+			var type = event.which;
+			if(type == 3) {
+				$('#mdn-dialog li').show();
+				$('#mdn-dialog li').css('border-top','1px solid #BBB');
+				$('#mdn-dialog-add-menu').hide();
+				$('#mdn-dialog-editor-menu').hide();
+				$('#mdn-dialog-delete-menu').hide();
+				$('#mdn-dialog-add-note').hide();
+				$('#mdn-dialog-editor-note').css('border-top','none');
+				$('#mdn-dialog').show();
+				$('#mdn-dialog').css({ 
+					top:self.pageY, 
+					left:self.pageX 
+				});
+				$('#mdn-dialog-editor').hide();
+				var $item = $(this);
+				$('#mdn-dialog-editor-parrent').html('<span name="' + $item.attr('name') + '">'+$item.html()+'</span>');
+				$('#mdn-dialog-editor').hide(); 
+			}
+		});
+	};
+	this.doEditorMenu = function() {
+		$('#mdn-menubar').unbind('mousedown').mousedown(function(event){
+			var type = event.which;
+			if(type == 3 && !self.isMenuOver) {
+				$('#mdn-dialog li').show();
+				$('#mdn-dialog li').css('border-top','1px solid #BBB');
+				$('#mdn-dialog-editor-menu').hide();
+				$('#mdn-dialog-delete-menu').hide();
+				$('#mdn-dialog-add-note').hide();
+				$('#mdn-dialog-editor-note').hide();
+				$('#mdn-dialog-delete-note').hide();
+				$('#mdn-dialog-add-menu').css('border-top','none');
+				$('#mdn-dialog').show();
+				$('#mdn-dialog').css({ 
+					top:self.pageY, 
+					left:self.pageX 
+				});
+				$('#mdn-dialog-editor').hide();
+				$('#mdn-dialog-editor-parrent').html(' Root Folder: <span>NoteFolder</span>');
+			}
+		});
+		$('#mdn-menubar').find('li').unbind('mousedown').mousedown(function(event){//Right Click Menu
+			var type = event.which;
+			if(type == 3) {
+				$('#mdn-dialog li').show();
+				$('#mdn-dialog li').css('border-top','1px solid #BBB');
+				$('#mdn-dialog-editor-note').hide();
+				$('#mdn-dialog-delete-note').hide();
+				$('#mdn-dialog-add-menu').css('border-top','none');
+				$('#mdn-dialog').show();
+				$('#mdn-dialog').css({ 
+					top:self.pageY, 
+					left:self.pageX 
+				});
+				var $item = $(this);
+				var htmlCurrent = self.makeHeadMenuHtml($item, true);
+				$('#mdn-dialog-editor-parrent').html(htmlCurrent);
+				$('#mdn-dialog-editor').hide();
+			}
+		});
+		
+		$('#mdn-menubar').find('li').unbind('mouseover').mouseover(function(){
+			self.isMenuOver = true;
+		});
+		$('#mdn-menubar').find('li').unbind('mouseout').mouseout(function(){
+			self.isMenuOver = false;
+		});
+		$('#mdn-notesbar').find('li span').unbind('mouseover').live('mouseover', function(){
+			self.isNoteOver = true;
+		});
+		$('#mdn-notesbar').find('li span').unbind('mouseout').live('mouseout', function(){
+			self.isNoteOver = false;
+		});
+		$('#mdn-dialog').unbind('mouseover').mouseover(function(){
+			self.isDialogOver = true;
+		});
+		$('#mdn-dialog').unbind('mouseout').mouseout(function(){
+			self.isDialogOver = false;
+		});
+		$(document).mousedown(function(event){
+			var type = event.which;
+			if(type == 1 && !self.isDialogOver) {
+				$('#mdn-dialog').hide();
+			}
+		});
+		$(document).mousemove(function(event){
+			self.pageX = event.pageX;
+			self.pageY = event.pageY;
+		});
+		$('#mdn-menubar, #mdn-dialog, #mdn-notesbar').bind('contextmenu', function(event){
+			event.preventDefault();
+		});
 	};
 };
 
