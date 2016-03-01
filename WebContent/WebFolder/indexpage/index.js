@@ -27,8 +27,7 @@ MDN.index = function() {
 		self.doMDEditor();
 		$.ajaxSetup({cache:false});
 	};
-	this.createMenubar = function(key) {
-		var $initMenu = null;
+	this.createMenubar = function(key, _callback) {
 		$.ajax({ 
 			type : 'POST',
 			url: MDN.host + '/fetchMenuList.action',
@@ -36,18 +35,16 @@ MDN.index = function() {
 			success : function( jsonObject ) { 
 				var menubar = jsonObject.menubar;
 				$('#mdn-menubar').jdMenuTree(menubar.menu.childMenuList);
-				if(typeof(key) == 'undefined') {
-					$initMenu = $('.jd-menu-tree').find('li:eq(0)');
-				} else {
-					$initMenu = $('#mdn-menubar').find('[key="'+key+'"]');
-				}
 				self.notesbarObject = menubar.notesMap;
 				self.bindClickMenu();
 				self.bindClickNote();
-				$initMenu.click();
+				self.doNotesbarTabs(key);
 				self.doEditorMenu();
 				self.doEditorNote();
 				self.bindClickEditor();
+				if(_callback) {
+					_callback();
+				}
 			},
 			error : function( error ) {
 				alert(error);
@@ -55,6 +52,26 @@ MDN.index = function() {
 			complete: function() { 
 			}
 		});
+	};
+	this.doNotesbarTabs = function(key) {
+		if(typeof(key) == 'undefined') {
+			var $initMenu = $('.jd-menu-tree').find('li:eq(0)');
+			$initMenu.click();
+		} else {
+			var keys = key.split(".");
+			for (var i = 0; i < keys.length; i++) {
+				var parentKey = '';
+				for (var j = 0; j < i + 1; j++) {
+					parentKey += keys[j];
+					if(j != i) {
+						parentKey += '.';
+					}
+				}
+				var $initMenu = $('#mdn-menubar').find('[key="'+parentKey+'"]');
+				$.jdMenuTree_Click($initMenu, false);
+				self.doClickMenu($initMenu);
+			}
+		}
 	};
 	this.initNotesbarTabs = function() {
 		self.$tabs = $('#mdn-notepad').jdTabs('Init Tabs', self.notesbarId, false);
@@ -64,24 +81,30 @@ MDN.index = function() {
 	this.bindClickMenu = function() {
 		$('.jd-menu-tree').find('li').click(function(){
 			var $item = $(this);
-			var allKeys = [];
-			var key = $item.attr('key');
-			allKeys.push(key);
-			$item.next().find('li').each(function(){
-				var $child = $(this);
-				allKeys.push($child.attr('key'));
-			});
-			self.makeHeadMenuHtml($item);
-			self.bindClickHeadMenu();
-			self.makeNotebarHtml(allKeys);
-			self.$notesbarTab.html($item.html());
-			self.$notesbarTab.click();
-			
-			self.$notesbarTab.click();
+			self.doClickMenu($item);
 		});
+	};
+	this.doClickMenu = function($item) {
+		var allKeys = [];
+		var key = $item.attr('key');
+		allKeys.push(key);
+		$item.next().find('li').each(function(){
+			var $child = $(this);
+			allKeys.push($child.attr('key'));
+		});
+		self.makeHeadMenuHtml($item);
+		self.bindClickHeadMenu();
+		self.makeNotebarHtml(allKeys);
+		self.$notesbarTab.html($item.html());
+		self.$notesbarTab.click();
+		
+		self.$notesbarTab.click();
 	};
 	this.makeHeadMenuHtml = function($item, isRightClick){
 		var currentKey = $item.attr('key');
+		if(typeof(currentKey) == 'undefined') {
+			return;
+		}
 		var childKeys = [];
 		$item.next().children('li').each(function(){
 			var $child = $(this);
@@ -439,6 +462,9 @@ MDN.index = function() {
 		$('#mdn-dialog-editor-submit').unbind('click').click(function(){
 			var type = $('#mdn-dialog-editor-title').html();
 			var value = $('#mdn-dialog-editor-value').val();
+			if(value == 'NoteFolder') {
+				return;
+			}
 			var keyParent = $('#mdn-dialog-editor-parrent span:last').attr('key');
 			var newName = '';
 			var key = '';
@@ -446,7 +472,9 @@ MDN.index = function() {
 			var _callback = null;
 			$('#mdn-dialog-editor-parrent').find('span').each(function(){
 				var $item = $(this);
-				filePath += '/' + $item.html();
+				if($item.html() != 'NoteFolder') {
+					filePath += '/' + $item.html();
+				}
 			});
 			if(type == "Add Menu") {
 				if(value == '' || value.indexOf(".") > -1) {
@@ -454,8 +482,12 @@ MDN.index = function() {
 				}
 				filePath += '/' + value;
 				key = value;
-				_callback = function() {
-					
+				_callback = function(returnKey) {
+					var initKey = returnKey;
+					if(typeof(keyParent) != 'undefined') {
+						initKey = keyParent+'.'+returnKey;
+					}
+					self.createMenubar(initKey);
 				};
 			} else if(type == "Edit Menu") {
 				var originalName = $('#mdn-dialog-editor-parrent span:last').html();
@@ -463,13 +495,49 @@ MDN.index = function() {
 					return;
 				}
 				newName = value;
+				key = value;
+				_callback = function(returnKey) {
+					var initKey = returnKey;
+					if(typeof(keyParent) != 'undefined') {
+						keyParent = keyParent.substr(0, keyParent.indexOf('.'));
+						if(keyParent != '') {
+							initKey = keyParent + '.' + returnKey;
+						}
+					}
+					self.createMenubar(initKey);
+				};
 			} else if(type == "Delete Menu") {
-				
+				_callback = function() {
+					var initKey = '';
+					if(typeof(keyParent) == 'undefined' || keyParent.indexOf(".") == -1) {
+						self.createMenubar();
+					} else {
+						initKey = keyParent.substr(0, keyParent.lastIndexOf("."));
+						self.createMenubar(initKey);
+					}
+				};
 			} else if(type == "Add Note") {
 				if(value == '') {
 					return;
 				}
 				filePath += '/' + value;
+				_callback = function() {
+					self.createMenubar(keyParent, function(){
+						var noteHtml = '';
+						if(value.indexOf('.') == -1) {
+							noteHtml = value + '.md';
+						} else {
+							noteHtml = value.substr(0, value.indexOf('.')) + '.md';
+						}
+						$('#mdn-notesbar').find('span').each(function(){
+							var $item = $(this);
+							if($item.html() == noteHtml) {
+								$item.click();
+								return false;
+							}
+						});
+					});
+				};
 			} else if(type == "Edit Note") {
 				var originalName = $('#mdn-dialog-editor-parrent span:last').html();
 				if(value == '' || value == originalName) {
@@ -477,8 +545,16 @@ MDN.index = function() {
 				}
 				newName = value;
 				filePath = $('#mdn-dialog-editor-parrent').find('span:last').attr('name');
+				filePath = decodeURI(filePath);
+				_callback = function() {
+					self.createMenubar(keyParent);
+				};
 			} else if(type == "Delete Note") {
 				filePath = $('#mdn-dialog-editor-parrent').find('span:last').attr('name');
+				filePath = decodeURI(filePath);
+				_callback = function() {
+					self.createMenubar(keyParent);
+				};
 			}
 			$.ajax({ 
 				type : 'POST',
@@ -492,7 +568,9 @@ MDN.index = function() {
 				dataType : 'json',
 				success : function( jsonObject ) { 
 					if(jsonObject.result == 'true') {
-						self.createMenubar(keyParent+'.'+jsonObject.key);
+						if(_callback) {
+							_callback(jsonObject.key);
+						}
 					} else {
 						alert('Error');
 					}
@@ -547,7 +625,7 @@ MDN.index = function() {
 				});
 				$('#mdn-dialog-editor').hide();
 				var $item = $(this);
-				$('#mdn-dialog-editor-parrent').html('<span name="' + $item.attr('name') + '">'+$item.html()+'</span>');
+				$('#mdn-dialog-editor-parrent').html('<span name="' + $item.attr('name') + '" key="' +  $('.mdn-head-menu .menu .current span:last').attr('key') + '">'+$item.html()+'</span>');
 				$('#mdn-dialog-editor').hide(); 
 			}
 		});
@@ -587,7 +665,30 @@ MDN.index = function() {
 					left:self.pageX 
 				});
 				var $item = $(this);
-				var htmlCurrent = self.makeHeadMenuHtml($item, true);
+				var currentKey = $item.find('span:last').attr('key2');
+				if(typeof(currentKey) == 'undefined') {
+					currentKey = $item.attr('key');
+				}
+				var htmlCurrent = '';
+				var keys = currentKey.split('.');
+				for (var i = 0; i < keys.length; i++) {
+					var key = '';
+					for (var j = 0; j < i + 1; j++) {
+						key += keys[j];
+						if(j != i) {
+							key += '.';
+						}
+					}
+					var title = $('.jd-menu-tree').find('[key="'+key+'"]').html();
+					if(title.indexOf('<span>') > -1) {
+						title = $('.jd-menu-tree').find('[key="'+key+'"]').find('span:first').html();
+					}
+					htmlCurrent += '<span key="' + key + '">' + title + '</span>';
+					if(i != keys.length-1) {
+						htmlCurrent += ' / ';
+					} 
+				}
+				
 				$('#mdn-dialog-editor-parrent').html(htmlCurrent);
 				$('#mdn-dialog-editor').hide();
 			}

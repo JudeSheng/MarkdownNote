@@ -51,6 +51,7 @@ public class MenuEditorAction extends ActionSupport implements ServletRequestAwa
 			if(newName.indexOf(".") == -1) {
 				result = FileUtil.renameFile(rootPath + filePath, newName)?"true":"false";
 				FileUtil.renameFile(FileUtil.ROOT_PATH + filePath, newName);
+				key = MenubarService.getKey(key, "");
 			}
 		} else if("Delete Menu".equalsIgnoreCase(type)) {
 			result = FileUtil.deleteFile(new File(rootPath + filePath))?"true":"false";

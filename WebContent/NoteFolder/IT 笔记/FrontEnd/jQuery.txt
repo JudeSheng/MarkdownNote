@@ -9,3 +9,6 @@ if ( $("#someID").length > 0 ) {}
 
 ### jquery offset
 - $('#mdn-dialog').offset({top:100,left:0});
+
+### 跳出each循环
+return false 结束当前each循环，return 继续下一次循环
