@@ -1,15 +1,33 @@
 ^^^^^^^^^^^^^^^^^^^^^^^ JS常用方法 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-- URL转码
-    - encodeURI/decodeURI
-- 阻止默认事件
-    - event.preventDefault();
-- js 转义字符:
+### URL转码
+   - encodeURI/decodeURI
+
+### 阻止默认事件
+- event.preventDefault();
+### js 转义字符:
     - \t    tab制表符
     - \n    换行符    
     - \r    回车符      
     - \b    退格符
-- js获取鼠标位置  
-    - mousemove(e) e.pageX e.pagey
+### js获取鼠标位置  
+- mousemove(e) e.pageX e.pagey
+
+### js深度克隆
+- js
+
+        EA = {a:false};
+        var tmp = JSON.stringify( EA );
+        var ea = JSON.parse(tmp);
+        ea.a = true;
+        console.log(EA.a)
+- jquery
+
+        EA = {a:true };
+        var ea = $.extend({},EA);
+        ea.a = false;
+        console.log(EA.a)
+    
+                    
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ^^^^^^^^^^^^^^^^^^^^^^^ Textarea Tab键和Shift+Tab键 ^^^^^^^^^^^^^^^^^^^^^^^^^^

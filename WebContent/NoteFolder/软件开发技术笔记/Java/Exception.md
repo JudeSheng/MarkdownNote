@@ -1,0 +1,20 @@
+^^^^^^^^^^^^ org.hibernate.HibernateException: No Session found for current thread ^^^^^^^^^^^^
+- sessionFactory 
+    - **org.springframework.orm.hibernate4.LocalSessionFactoryBean**
+- Hibernate4 与 spring3 整合使用注解注入sessionFactory，SessionFactory的getCurrentSession并不能保证在没有当前Session的情况下会自动创建一个新的，这取决于CurrentSessionContext的实现
+- 解决方案
+    1. session.openSession()
+    2. 用transactionManager管理session,注解@Transactional(value="transactionManager", readOnly=true)
+
+            <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+                <property name="sessionFactory" ref="sessionFactory">
+                </property>
+            </bean>
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+^^^^^^^^^^^^^^^^^^^^^^^^@Transactional不起作用^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+配置文件必须加annotation-driven，否则不解析@Transactional 
+
+    <tx:annotation-driven />
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
