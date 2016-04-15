@@ -18,3 +18,13 @@
 
     <tx:annotation-driven />
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+^^^^^^^^^^^^^^^^^^^^^^^Injection of autowired dependencies failed; ^^^^^^^^^^^^^^^^^^^^^^^
+#### nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field:
+#### expected single matching bean but found 2: 
+- spring @Autowired有多个子类实现报错
+- 解决方案 ：
+    - 用@Resource(name="") 代替@Autowired
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
