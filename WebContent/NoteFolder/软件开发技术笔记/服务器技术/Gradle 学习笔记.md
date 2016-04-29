@@ -265,7 +265,7 @@ Glossary
 2. 开启Daemon
     - C:\Users\xxxx\\.gradle目录新建文件 gradle.properties
     - gradle.properties文件添加 **org.gradle.daemon=true**
-    - 当**org.gradle.daemon=true**并且Daemon未开启时，运行gradle命令会自动开启Daemon
+        - 当**org.gradle.daemon=true**并且Daemon未开启时，运行gradle命令会自动开启Daemon
 3. 关闭Daemon
     - gradle --stop
     - 闲置3小时的Daemon进程会自动关闭

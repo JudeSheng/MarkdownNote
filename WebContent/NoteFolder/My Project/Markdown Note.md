@@ -1,18 +1,3 @@
-^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 to do list^^^^^^^^^^^^^^^^^^^
-- Markdown.Editor
-    - Menubar增删
-        - 后台Action
-    - Menubar移动
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-^^^^^^^^^^^^^^^^^^^ Markdown Note 1.0 ^^^^^^^^^^^^^^^^^^^
-- Menubar  
-    the menubar is come from the folder on the server
-- Markdown  
-    just support the basic markdown rules
-- Editor  
-    transparent editor 1.0 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^^^^^^^^^ Markdown Note 2.0 ^^^^^^^^^^^^^^^^^^^
 
 - 基本要求
@@ -27,6 +12,8 @@
     - 实现非Markdown可视化操作
     - 自定义模板，可以一键生成笔记框架
     - 回车自动空与上行相同空格
+    - Menubar移动
+    - 快捷键大全
 2. 高效，超快速用户体验 ：离线使用，本地缓存，后台同步
     - 本地文件缓存笔记内容
     - JS缓存修改内容
@@ -42,7 +29,7 @@
     - 树状多tabs
 4. 安全
     - 保险箱功能
-
+    - 本地日记本
 - 寻求亮点
 1. 创新的分类结构 ：目录树、目录海、基础Menubar，并且可以自由选择。
 2. 强大的Markdown : Markdown标签扩展、自定义标签
