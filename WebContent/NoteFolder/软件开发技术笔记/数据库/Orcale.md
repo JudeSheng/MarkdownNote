@@ -1,1 +1,2 @@
-### Create Table
+- Alter session set NLS_DATE_FORMAT = 'dd-Mon-yyyy hh24:mi:ss';
+    - 修改当前会话的默认date格式

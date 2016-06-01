@@ -32,3 +32,10 @@
 ^^^^^^^^^^^^^^^^^^^^^^^设置 -Xmx后进程实际占用内存超出 ^^^^^^^^^^^^^^^^^^^^^^^
 > 进程除了JVM heap外 还有别的Native对象占用内存，Native对象不受JVM管理
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+^^^^^^^^^^^^^^^^^^^^^^^ java.lang.IllegalArgumentException: XPP3 pull parser library not present. Specify another driver. For example: new XStream(new DomDriver())^^^^^^^^^^^^^^^^^^^^^^^
+
+- 解决方案
+    1. 加入 gficore_all.jar
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

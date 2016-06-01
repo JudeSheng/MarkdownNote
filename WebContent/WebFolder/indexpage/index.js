@@ -386,9 +386,17 @@ MDN.index = function() {
 							var $item = $('#' + self.currentTabs).find('.jd-md-panel');
 							$item.jdMarkdown(_html, self.converter);
 							$item.find('.jd-md-collContent').show();
-							$item.find('img').attr('src', self.imgExpand);
-							$item.find('.jd-md-rightimg').removeClass('jd-md-down');
-							$item.find('.jd-md-rightimg').addClass('jd-md-up');
+
+							$item.find('.jd-md-collContent').hide();
+							$item.find('img').attr('src', self.imgCollapse);
+							$item.find('.jd-md-rightimg').removeClass('jd-md-up');
+							$item.find('.jd-md-rightimg').addClass('jd-md-down');
+							
+							$item.find('.jd-md-collContent:last').show();
+							$item.find('img:last').attr('src', self.imgExpand);
+							$item.find('.jd-md-rightimg:last').removeClass('jd-md-down');
+							$item.find('.jd-md-rightimg:last').addClass('jd-md-up');
+							
 							$('.wmd-panel').hide();
 						},
 						error : function( error ) {

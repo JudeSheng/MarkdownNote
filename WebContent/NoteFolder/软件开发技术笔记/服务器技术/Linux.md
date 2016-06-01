@@ -1,6 +1,9 @@
 - grep -A/-B 10 'XXX' XX.log
     > 带上grep语句后/前 10条
 
+- less -N
+    > 显示行号
+
 - history 10
     > 察看前10条历史命令
 
@@ -38,3 +41,6 @@
     > 查找文件
 - find /xx/xx/ -name 'xx*.log' | grep -v 'xxx' | xargs ls -l
     > find 和 ls 和用
+
+- wc *.out
+    > 显示二进制文件的行数
