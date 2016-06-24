@@ -1,0 +1,1 @@
+- @Results( { @Result(name = ActionSupport.SUCCESS, type = "json", params = { "root", "bannerResult", "excludeNullProperties", "true", "enableGZIP", "true" }) })

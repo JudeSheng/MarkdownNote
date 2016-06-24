@@ -1,0 +1,6 @@
+- 通知(Advice):
+    - 切面方法
+- 连接点(Joinpoint):
+- 切入点(Pointcut)
+    - 那里调用
+- 引入(Introduction)
