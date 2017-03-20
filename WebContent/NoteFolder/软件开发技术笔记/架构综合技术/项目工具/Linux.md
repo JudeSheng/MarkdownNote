@@ -1,3 +1,10 @@
+- 获取当前shell的路径
+    1. basepath=$(cd `dirname $0`; pwd)
+- 字符串替换
+    1. sed -i "s/aaa/bbb/g" test.txt
+- find .|xargs grep -ri "IBM"
+    > 查找字符在哪个文件
+- alias aName='xxx'
 - grep -A/-B 10 'XXX' XX.log
     > 带上grep语句后/前 10条
 
@@ -6,9 +13,6 @@
 
 - history 10
     > 察看前10条历史命令
-
-- ./xxx.sh status
-    > 察看进程状态
 
 - chmod -R 777 folder
     > 赋权限

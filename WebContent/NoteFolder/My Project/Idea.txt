@@ -54,6 +54,17 @@
     4. 改善项目
     5. 学习
 ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^Working in project^^^^^^^^^^^^^
+        UM    PM    Customer    Team/Release    Other team    Project
+        Comprehensive ability    Requirement details    Requirement    Resource allocation        Maintainability
+        Out of project    Team members status    Issue    Work Progress        Technology
+        Presence    Release Schedule    Schedule    Difficult        Business logic
+        Over time    Over time        YGCS        Controllability
+            Communications with Others                
+            Improvements for the project                
+            Out of project                
+
+^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^Project^^^^^^^^^^^^^
 - Life
     - 去除那些不重要的事情和不好的情绪

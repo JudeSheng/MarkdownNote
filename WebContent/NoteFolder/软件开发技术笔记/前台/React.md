@@ -1,0 +1,3 @@
+- Jquery事件驱动
+- React数据驱动，优势在于组件化
+- Redux/Reflax
