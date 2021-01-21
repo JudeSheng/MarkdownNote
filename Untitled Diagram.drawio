@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-01-20T07:21:47.731Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="R0CQ6eUEU_BxeIMHBoAd" version="14.1.8" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2021-01-21T02:33:52.768Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="RcET2sdBf3LmaqtCuSCw" version="14.1.8" type="github" pages="2">
   <diagram id="cVjxZzLwL_wyQ9B9aP87" name="Page-1">
-    <mxGraphModel dx="2253" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1626" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -106,7 +106,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="jRmJMZqvgI9TjXQ9TuZf" name="Page-2">
-    <mxGraphModel dx="1026" dy="1194" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1478" dy="1228" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="8s_jQDS1ty3zFgQ5Uoqw-0" />
         <mxCell id="8s_jQDS1ty3zFgQ5Uoqw-1" parent="8s_jQDS1ty3zFgQ5Uoqw-0" />
@@ -142,6 +142,13 @@
         <mxCell id="AE8oVQk_Y-hZ0B_NTPro-47" value="Refund" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="AE8oVQk_Y-hZ0B_NTPro-43" vertex="1" connectable="0">
           <mxGeometry x="0.0985" y="1" relative="1" as="geometry">
             <mxPoint y="73" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YwNhor-JZhS5qyKoO-f4-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="8s_jQDS1ty3zFgQ5Uoqw-1" source="AE8oVQk_Y-hZ0B_NTPro-0" target="YwNhor-JZhS5qyKoO-f4-0">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="910" y="-140" />
+            </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="AE8oVQk_Y-hZ0B_NTPro-0" value="payment-order" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="8s_jQDS1ty3zFgQ5Uoqw-1" vertex="1">
@@ -286,6 +293,9 @@
         </mxCell>
         <mxCell id="qpmsqprhgQ6LBomJ-GZK-4" value="payment-instrument" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="8s_jQDS1ty3zFgQ5Uoqw-1" vertex="1">
           <mxGeometry x="1090" y="810" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="YwNhor-JZhS5qyKoO-f4-0" value="refund" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="8s_jQDS1ty3zFgQ5Uoqw-1">
+          <mxGeometry x="1090" y="-170" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
